@@ -13,9 +13,145 @@
 </head>
 <body>
 
+    <header>
+        <div class="wrapper">
+            <nav id="mainNav">
+                <ul>
+                    <li>
+                        <a href="#">Home</a>
+                    </li>
+                    <li>
+                        <a href="#">Work</a>
+                    </li>
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                </ul>
+
+                <button id="toggleTheme">🌘</button>
+
+            </nav>
+
+            <!-- End desktop navigation menu-->
+
+            <div class="hero-section">
+                <div class="left">
+
+                    <a class="hello-card">👋 Hello!</a>
+
+                    <h1>I’m Catarina, <br>
+                        A Data Science <br>
+                        Master's Student
+                    </h1>
+
+                    <a href="#" class="btn dark">View My Work</a>
+                    <a href="#" class="btn light">Contact Me</a>
+
+                </div>
+
+                <div class="right">
+                    <img src="images/hero-image.png" alt="">
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- End of Header section-->
+
+    <div class="wrapper">
+        <section class="work-section">
+            <h2>My Recent Work</h2>
+            <!-- First work item -->
+            <div class="work-item">
+                <div class="work-content">
+                    <h3>Recommender System & <br>
+                        Data Strategy</h3>
+                    <p>Led the top-ranked business project (1st of 27) <br>
+                        for Recheio, designing a graph-based <br>
+                        recommender system and presenting a Neo4j- <br>
+                        powered client profiling solution with digital <br>
+                        transformation, web scraping, and behavioral <br>
+                        patterns to the company's board.
+                    </p>
+
+                    <a href="#">View Case Study</a>
+                </div>
+
+                <div class="work-carousel">
+                <!-- Main displayed image -->
+                <div class="main-image-container">
+                    <img src="images/case-1=Variant1.png" alt="Recommender System" class="main-image" id="mainCarouselImage">
+                </div>
+                
+                <!-- Carousel controls -->
+                <div class="carousel-controls">
+                    <button class="prev-btn" id="prevBtn">&lt;</button>
+                    <button class="next-btn" id="nextBtn">&gt;</button>
+                </div>
+            </div>
+        </div>
+        </section>
+    </div>
+
+    <!--End of work section-->
+
+    <div class="wrapper">
+        <section class="about-me-section">
+            <h2>
+                A Little Bit About Me
+            </h2>
+            <p>
+                I’ll start with a confession: I don’t know everything. But honestly, I think that’s the fun of it.
+            </p>     
+        </section>
+    </div>
+
+    <footer>
+        <div class="wrapper">
+            <h1>Let’s work together!</h1>
+            
+            <div class="contact-buttons">
+                <a href="#" class="btn light">Contact Me</a>
+                <div class="socials">
+                    <a href="#" class="social-btn">
+                        <img src="images/Linkedin.svg" alt="LinkedIn" />
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="#" class="social-btn">
+                        <img src="images/Github.svg" alt="GitHub" />
+                        <span>GitHub</span>
+                    </a>
+                </div>
+             </div>
+
+             <p class="copyright">
+                &copy; 2025 Catarina Gonçalves Nunes. All rights reserved.
+            </p>
+        </div>
+    </footer>
+    
+
+    <button id="backToTop" title="Back to top">⬆</button>
+
+    <script>
+    const backToTopBtn = document.getElementById("backToTop");
+
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+        backToTopBtn.classList.add("show");
+        } else {
+        backToTopBtn.classList.remove("show");
+        }
+    });
+
+    backToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+        });
+    });
+    </script>
+
     <script src="main.js"></script>
 
-
-    
 </body>
 </html>
