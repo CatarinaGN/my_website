@@ -14,23 +14,23 @@
 <body>
 
     <header>
-        <div class="wrapper">
             <nav id="mainNav">
-                <ul>
-                    <li>
-                        <a href="#">Home</a>
-                    </li>
-                    <li>
-                        <a href="#">Work</a>
-                    </li>
-                    <li>
-                        <a href="#">About</a>
-                    </li>
-                </ul>
+                <div class="wrapper">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Work</a></li>
+                        <li><a href="#">About</a></li>
+                    </ul>
 
-                <button id="toggleTheme">🌘</button>
-
+                    <button id="toggleTheme" class="theme-toggle" aria-label="Toggle dark mode">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                        <span class="toggle-ball"></span>
+                    </button>
+                </div>
             </nav>
+
+        <div class="wrapper">
 
             <!-- End desktop navigation menu-->
 
@@ -44,8 +44,10 @@
                         Master's Student
                     </h1>
 
-                    <a href="#" class="btn dark">View My Work</a>
-                    <a href="#" class="btn light">Contact Me</a>
+                    <div class="button-group">
+                        <a href="#" class="btn dark">View My Work<img src="images/chevron-right-square.svg" alt="" class="btn-icon"></a>
+                        <a href="#" class="btn light">Contact Me</a>
+                    </div>
 
                 </div>
 
@@ -55,7 +57,21 @@
             </div>
         </div>
     </header>
+
     <!-- End of Header section-->
+
+    <div class="wrapper">
+        <section class="about-me-section">
+            <h2>
+                A Little Bit About Me
+            </h2>
+            <p>
+                I’ll start with a confession: I don’t know everything. But honestly, I think that’s the fun of it.
+            </p>     
+        </section>
+    </div>
+
+    <!-- End of About me section section-->
 
     <div class="wrapper">
         <section class="work-section">
@@ -94,23 +110,12 @@
 
     <!--End of work section-->
 
-    <div class="wrapper">
-        <section class="about-me-section">
-            <h2>
-                A Little Bit About Me
-            </h2>
-            <p>
-                I’ll start with a confession: I don’t know everything. But honestly, I think that’s the fun of it.
-            </p>     
-        </section>
-    </div>
-
     <footer>
         <div class="wrapper">
             <h1>Let’s work together!</h1>
             
             <div class="contact-buttons">
-                <a href="#" class="btn light">Contact Me</a>
+                <a href="#" class="btn light footer">Contact Me</a>
                 <div class="socials">
                     <a href="#" class="social-btn">
                         <img src="images/Linkedin.svg" alt="LinkedIn" />

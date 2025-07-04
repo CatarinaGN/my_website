@@ -1,28 +1,50 @@
-// navigation button
-
+// Navigation hide/show on scroll
 let lastScrollTop = 0;
 const nav = document.getElementById("mainNav");
 
-window.addEventListener("scroll", function () {
+window.addEventListener("scroll", function() {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (scrollTop > lastScrollTop) {
+    
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
         // scrolling down
-        nav.style.top = "-100px"; // hide
+        nav.style.top = "-100px";
     } else {
         // scrolling up
-        nav.style.top = "0"; // show
+        nav.style.top = "0";
     }
-
+    
     lastScrollTop = scrollTop;
 });
 
+// Enhanced theme toggle with localStorage
 const toggleBtn = document.getElementById("toggleTheme");
 
+function setTheme(isDark) {
+    if (isDark) {
+        document.body.classList.add("dark-mode");
+        document.body.classList.remove("light-mode");
+        document.documentElement.style.setProperty('--current-bg', 'var(--dark-bg)');
+    } else {
+        document.body.classList.add("light-mode");
+        document.body.classList.remove("dark-mode");
+        document.documentElement.style.setProperty('--current-bg', 'var(--light-beige)');
+    }
+}
+
+// Initialize theme - add this to check system preference if no localStorage
+if (localStorage.getItem("darkMode") === null) {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark);
+}
 toggleBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
+    const isDark = !document.body.classList.contains("dark-mode");
+    setTheme(isDark);
+    localStorage.setItem("darkMode", isDark);
 });
 
+// Initialize theme
+const savedTheme = localStorage.getItem("darkMode");
+setTheme(savedTheme === "true");
 
 //Caroussel
 
@@ -82,9 +104,3 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize carousel
     updateCarousel();
 });
-
-
-// Back to top button
-
-
-
