@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <header>
+    <div class="page-wrapper">
+        <header class="fullscreen-header">
             <nav id="mainNav">
                 <div class="wrapper">
                     <ul>
@@ -21,7 +19,6 @@
                         <li><a href="#">Work</a></li>
                         <li><a href="#">About</a></li>
                     </ul>
-
                     <button id="toggleTheme" class="theme-toggle" aria-label="Toggle dark mode">
                         <span class="sun-icon">☀️</span>
                         <span class="moon-icon">🌙</span>
@@ -30,46 +27,57 @@
                 </div>
             </nav>
 
-        <div class="wrapper">
-
-            <!-- End desktop navigation menu-->
-
-            <div class="hero-section">
-                <div class="left">
-
-                    <a class="hello-card">👋 Hello!</a>
-
-                    <h1>I’m Catarina, <br>
-                        A Data Science <br>
-                        Master's Student
-                    </h1>
-
-                    <div class="button-group">
-                        <a href="#" class="btn dark">View My Work<img src="images/chevron-right-square.svg" alt="" class="btn-icon"></a>
-                        <a href="#" class="btn light">Contact Me</a>
+            <div class="wrapper">
+                <div class="hero-section">
+                    <div class="left">
+                        <a class="hello-card">👋 Hello!</a>
+                        <h1>I'm Catarina, <br>A Data Science <br>Master's Student</h1>
+                        <div class="button-group">
+                            <a href="#" class="btn dark">View My Work<img src="images/chevron-right-square.svg" alt="" class="btn-icon"></a>
+                            <a href="#" class="btn light">Contact Me</a>
+                        </div>
                     </div>
-
-                </div>
-
-                <div class="right">
-                    <img src="images/hero-image.png" alt="">
+                    <div class="right">
+                        <img src="images/hero-image.png" alt="">
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+            
+            <!-- Scroll indicator -->
+            <div class="scroll-indicator"></div>
+        </header>
 
     <!-- End of Header section-->
 
-    <div class="wrapper">
-        <section class="about-me-section">
-            <h2>
-                A Little Bit About Me
-            </h2>
-            <p>
-                I’ll start with a confession: I don’t know everything. But honestly, I think that’s the fun of it.
-            </p>     
+    <!-- About Me Section -->
+    <section class="about-me-section">
+        <div class="wrapper">
+            <h2>A Little Bit About Me</h2>
+            <p>I'll start with a confession: I don't know everything. But honestly, I think that's the fun of it.</p>
+            
+            <!-- Fun CV Button -->
+            <a href="https://scanned.page/p/6867f30fb2505" class="btn dark" target="_blank">My Journey<img src="images/chevron-right-square.svg" alt="" class="btn-icon"></a>
+
+            <div class="fun-facts">
+                <div class="fact">
+                    <span class="fact-number">1.5+</span>
+                    <span class="fact-text">Years of Experience</span>
+                </div>
+                <div class="fact">
+                    <span class="fact-number">8+</span>
+                    <span class="fact-text">Projects Completed</span>
+                </div>
+                <div class="fact">
+                    <span class="fact-number">3</span>
+                    <span class="fact-text">Executive Board Presentations</span>
+                </div>
+                <div class="fact">
+                    <span class="fact-number">3</span>
+                    <span class="fact-text">Awards for best solution</span>
+                </div>
+            </div>
+        </div>
         </section>
-    </div>
 
     <!-- End of About me section section-->
 

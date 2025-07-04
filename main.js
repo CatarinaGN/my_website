@@ -1,3 +1,42 @@
+// Mouse follower effect
+document.addEventListener('DOMContentLoaded', () => {
+    const follower = document.createElement('div');
+    follower.classList.add('mouse-follower');
+    document.body.appendChild(follower);
+
+    document.addEventListener('mousemove', (e) => {
+        follower.style.left = `${e.clientX}px`;
+        follower.style.top = `${e.clientY}px`;
+    });
+
+    // Make follower grow when hovering interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .hello-card');
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            follower.classList.add('active');
+        });
+        el.addEventListener('mouseleave', () => {
+            follower.classList.remove('active');
+        });
+    });
+
+    // Scroll animation for about section
+    const aboutSection = document.querySelector('.about-me-section');
+    
+    function checkScroll() {
+        const sectionTop = aboutSection.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (sectionTop < windowHeight * 0.75) {
+            aboutSection.classList.add('animate');
+        }
+    }
+    
+    window.addEventListener('scroll', checkScroll);
+    checkScroll(); // Run once on load
+});
+
+
 // Navigation hide/show on scroll
 let lastScrollTop = 0;
 const nav = document.getElementById("mainNav");
@@ -45,6 +84,58 @@ toggleBtn.addEventListener("click", () => {
 // Initialize theme
 const savedTheme = localStorage.getItem("darkMode");
 setTheme(savedTheme === "true");
+
+
+//-----------------------------------------------------------------
+// Scroll animation for about section
+document.addEventListener('DOMContentLoaded', function() {
+    const aboutSection = document.querySelector('.about-me-section');
+    const header = document.querySelector('.fullscreen-header');
+    const heroImg = document.querySelector('.hero-section .right img');
+    
+    // More precise intersection observer
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                aboutSection.classList.add('visible');
+                document.body.classList.add('scrolled-past-hero');
+                
+                // Add a temporary class for the initial animation
+                aboutSection.classList.add('animating');
+                setTimeout(() => {
+                    aboutSection.classList.remove('animating');
+                }, 1000);
+            } else {
+                document.body.classList.remove('scrolled-past-hero');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    });
+    
+    observer.observe(aboutSection);
+    
+    // Remove scroll indicator after first scroll
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            scrollIndicator.style.opacity = '0';
+            setTimeout(() => scrollIndicator.remove(), 300);
+        }
+    }, { once: true });
+    
+    // Add smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+});
+//-----------------------------------------------------------------
 
 //Caroussel
 
