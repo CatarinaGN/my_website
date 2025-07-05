@@ -62,7 +62,7 @@ body {
 /* Scroll indicator */
 .scroll-indicator {
     position: absolute;
-    bottom: 30px;
+    top: 90vh;
     left: 50%;
     transform: translateX(-50%);
     width: 30px;
@@ -82,7 +82,7 @@ body {
     background: var(--dark-brown);
     border-radius: 50%;
     transform: translateX(-50%);
-    animation: scroll 2s infinite;
+    animation: scroll 1s infinite;
 }
 
 @keyframes bounce {
@@ -96,24 +96,53 @@ body {
     100% { opacity: 0; top: 30px; }
 }
 
-/* Mouse follower effect (add to your existing CSS) */
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotate(-45deg) scale(1.3);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+    }
+}
+
 .mouse-follower {
     position: fixed;
     width: 20px;
     height: 20px;
     background-color: var(--green);
-    border-radius: 50%;
     pointer-events: none;
     mix-blend-mode: multiply;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotate(-45deg);
     z-index: 9999;
-    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+    transition: transform 0.2s ease;
+    border-radius: 0;
+}
+
+.mouse-follower::before,
+.mouse-follower::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: var(--green);
+    border-radius: 50%;
+}
+
+.mouse-follower::before {
+    top: -10px;
+    left: 0;
+}
+
+.mouse-follower::after {
+    left: 10px;
+    top: 0;
 }
 
 .mouse-follower.active {
-    width: 40px;
-    height: 40px;
-    background-color: var(--green);
+    animation: pulse 0.6s infinite ease-in-out;
 }
 
 /* For mobile devices */
@@ -392,8 +421,8 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center; /* Changed from flex-end to center */
-    padding: 0;
-    gap: 0rem; /* Increased gap */
+    padding: 1;
+    gap: 1rem; /* Increased gap */
     min-height: calc(100vh - 80px); /* Subtract nav height */
 }
 
@@ -437,6 +466,14 @@ header, .about-me-section {
     position: relative;
     overflow: hidden;
     background-color: var(--light-beige);
+}
+
+.about-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 /* About section initial state */
@@ -509,12 +546,201 @@ header, .about-me-section {
 
 /*---------------------------END ABOUT ME--------------------- */
 
+/* Animation Styles */
+.about-me-section,
+.work-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 
+        opacity 1s cubic-bezier(0.33, 1, 0.68, 1),
+        transform 1s cubic-bezier(0.33, 1, 0.68, 1);
+}
 
-/* work section */
+.about-me-section.visible,
+.work-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Reset transition delay when not visible */
+.work-item:not(.is-visible) {
+    transition-delay: 1s !important;
+}
+
+/* Hero image adjustment when scrolled */
+body.scrolled-past-hero .hero-section .right img {
+    transform: translateY(-30px) scale(0.95);
+    opacity: 0.8;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .about-me-section,
+    .work-item {
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+/*-------------------------------- work section */
+
+/* Work Section Styles */
+.work-section {
+    padding: 4rem 0;
+    background-color: var(--light-beige);
+}
+
+.work-section h2 {
+    font-weight: bold;
+    color: var(--green);
+}
+
+.work-item {
+    margin-bottom: 4rem;
+}
+
+.work-card {
+    display: flex;
+    align-items: center; 
+    background-color: var(--beige);
+    gap: 0rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+     
+}
+
+.work-content {
+    flex: 0 40%; /* Fixed 40% width */
+    padding: 3rem;
+    box-sizing: border-box;
+}
+
+
+.work-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--dark-brown);
+}
+
+.work-content p {
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.work-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--green);
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.work-link:hover {
+    transform: translateX(5px);
+}
+
+.work-link::after {
+    content: '→';
+    margin-left: 8px;
+    transition: margin 0.3s ease;
+}
+
+.work-link:hover::after {
+    margin-left: 20px;
+}
+
+/* Vertical Carousel Styles */
+.work-carousel {
+  flex: 0 60%; /* Fixed 60% width */
+  right: 20px;
+  position: relative;
+  height: 300px; /* Fixed height for container */
+  overflow: hidden; /* Clip overflowing slides */
+  display: flex;
+  padding: 0px; /* Add some padding */
+  margin: 0;
+}
+
+/* Carousel Track */
+.vertical-carousel {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.carousel-slide {
+    flex: 0 0 100%; /* Each slide takes full height problema*/ 
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.carousel-slide img {
+  width: auto;
+  height: 100%;
+  object-fit: contain; /* Show full image without cropping */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.carousel-slide img:hover {
+  transform: scale(1.02);
+}
+
+
+/* Navigation Dots */
+.carousel-dots {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid var(--green);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+  background: var(--green);
+  transform: scale(1.2);
+}
+
+/* Drag Cursor */
+.vertical-carousel {
+  cursor: grab;
+}
+
+.vertical-carousel:active {
+  cursor: grabbing;
+}
 
 
 
-/* footer */
+
+
+
+
+
+/*------------------------------------------ footer */
 
 footer {
     background-color: var(--beige);
@@ -526,58 +752,71 @@ footer {
 footer h2 {
     margin-bottom: 1rem;
     font-size: 1.5rem;
-    color: var(--beige);
+    color: var(--dark-brown);
 }
 
-footer .btn.btn.light.footer {
+/* Email Button - Fixed */
+footer .btn.light.footer {
     background-color: var(--green);
     color: var(--beige);
-    font-weight: 600;
-    padding: 0.6rem 1.2rem;
-    border-radius: 10px;
+    font-weight: bold;
     text-decoration: none;
-    display: inline-block;
-    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
 }
 
-footer .socials {
-    margin: 1rem 0;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-}
-
-footer .socials img {
-    width: 32px;
-    height: 32px;
+footer .btn.light.footer::after {
+    content: '✉️'; /* Added emoji variation selector */
+    margin-left: 10px;
+    transition: margin 0.3s ease;
+    display: inline-block; /* Ensures icon appears */
 }
 
 footer p {
     margin-top: 2rem;
     font-size: 0.875rem;
-    font-weight: 600; 
+    font-weight: 500; 
     color: var(--dark-brown);
 }
 
+footer .socials {
+    margin: 0rem 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
+footer .socials img {
+    width: 40px;
+    height: 40px;
+}
+
+
 .social-btn {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0rem;
     color: var(--dark-brown);
     text-decoration: none;
-    position: relative;
+    padding: 0rem;
 }
 
 .social-btn span {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: translateY(-5px);
     transition: opacity 0.3s ease, transform 0.3s ease;
     font-weight: 500;
+    order: 2; /* Text below */
 }
 
 .social-btn:hover span {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
 }
 
 .social-btn img {
@@ -592,6 +831,7 @@ footer p {
 }
 
 
+/*_______________________________________________________
 /* back to top button */
 
 #backToTop {
