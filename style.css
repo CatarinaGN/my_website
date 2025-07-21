@@ -2,7 +2,7 @@
     --dark-brown: #403930;
     --light-brown: #594F43;
     --green: #4E8065;
-    --beige: #FFDDBF;
+    --beige: #F3D9B3;
     --light-beige: #FFF3E5;
 }
 
@@ -67,7 +67,7 @@ body {
     transform: translateX(-50%);
     width: 30px;
     height: 50px;
-    border: 2px solid var(--dark-brown);
+    border: 2px solid var(--green);
     border-radius: 15px;
     animation: bounce 2s infinite;
 }
@@ -79,7 +79,7 @@ body {
     left: 50%;
     width: 6px;
     height: 6px;
-    background: var(--dark-brown);
+    background: var(--green);
     border-radius: 50%;
     transform: translateX(-50%);
     animation: scroll 1s infinite;
