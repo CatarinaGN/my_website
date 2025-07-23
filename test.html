@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Network Scroll Animation</title>
+    <style>
+        /* Full-screen black background */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        #network-wrapper {
+            height: 3000px; /* Creates vertical scroll */
+            position: relative;
+            background-color: black;
+        }
+
+        #network-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* So canvas doesn't block mouse */
+        }
+    </style>
+</head>
+<body>
+
+<div id="network-wrapper">
+    <canvas id="network-canvas"></canvas>
+</div>
+
+<script>
+    const canvas = document.getElementById('network-canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let nodes = [];
+    let edges = [];
+
+    class Node {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.radius = 6;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+        }
+    }
+
+    class Edge {
+        constructor(n1, n2) {
+            this.n1 = n1;
+            this.n2 = n2;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.moveTo(this.n1.x, this.n1.y);
+            ctx.lineTo(this.n2.x, this.n2.y);
+            ctx.strokeStyle = 'gray';
+            ctx.stroke();
+        }
+    }
+
+    // Add the first node in the center
+    nodes.push(new Node(canvas.width / 2, canvas.height / 2));
+
+    // Add more nodes as you scroll
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const nodeCount = Math.min(50, Math.floor(scrollY / 50)); // Limit total nodes
+
+        while (nodes.length < nodeCount) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const newNode = new Node(x, y);
+
+            // Connect to a random existing node
+            const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
+            edges.push(new Edge(newNode, randomNode));
+            nodes.push(newNode);
+        }
+    });
+
+    // Animate the canvas
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        edges.forEach(e => e.draw());
+        nodes.forEach(n => n.draw());
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recheio Case Study</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+  <style>
+    :root {
+      --dark-green: #2E5E45;
+      --green: #4E8065;
+      --light-green: #7BA898;
+      --lighter-green: #A8D0C0;
+      --light-brown: #594F43;
+      --dark-brown: #403930;
+      --light-beige: #FFF3E5;
+      --beige: #FFDDBF;
+      --glow-color: rgba(168, 208, 192, 0.4);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--green);
+      color: var(--light-beige);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      opacity: 0.2;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    
+
+    .section {
+      min-height: 100vh;
+      padding: 100px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero {
+      background-color: transparent;
+    }
+
+    .go-back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      color: var(--light-beige);
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .go-back-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateX(-3px);
+    }
+
+    .go-back-btn::before {
+      content: "⬅";
+      margin-right: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .go-back-btn:hover::before {
+      transform: translateX(-3px);
+    }
+
+    h1 {
+      font-size: 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.2;
+      text-shadow: 0 0 10px rgba(255,255,255,0);
+      transition: text-shadow 0.5s ease;
+    }
+
+    h1:hover {
+      text-shadow: 0 0 10px var(--glow-color), 
+                   0 0 20px var(--glow-color);
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: var(--light-beige);
+      font-weight: 400;
+      max-width: 700px;
+      margin: 20px auto;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    p strong {
+      color: var(--lighter-green);
+      font-weight: 500;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--light-green);
+      color: var(--light-beige);
+      padding: 12px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--light-green);
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px var(--glow-color);
+    }
+
+    .logo {
+      width: 180px;
+      margin: 2% auto 0; /* Changed from margin-top: 2% */
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.2));
+    }
+
+    .carousel-container {
+      width: 90%;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      background-color: var(--lighter-green);
+      border-radius: 15px;
+      padding: 0rem;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .swiper-slide p:first-child {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--dark-green);
+      margin-bottom: 1rem;
+    }
+
+    .swiper-slide p:last-child {
+      color: var(--dark-brown);
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    .swiper-pagination-bullet {
+      background: var(--light-beige);
+    }
+
+    .slide-img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin: 20px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .community-section .slide-img {
+        position: relative;
+        z-index: 2;
+        transition: transform 0.5s ease;
+    }
+
+    .community-bg-expand {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--light-green);
+        z-index: 1;
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 1s ease;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+      margin-top: 1.5rem;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      padding: 10px 20px;
+      background-color: rgba(46, 94, 69, 0.7);
+      border: none;
+      border-radius: 8px;
+      color: var(--light-beige);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .tab-btn:hover {
+      background-color: rgba(168, 208, 192, 0.3);
+    }
+
+    .tab-btn.active {
+      background-color: var(--lighter-green);
+      color: var(--dark-green);
+      font-weight: 600;
+    }
+
+    .tab-content {
+      display: none;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      padding: 1.5rem;
+      border-radius: 10px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .tab-content p {
+      margin: 0;
+      text-align: left;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slides-row {
+        display: flex;
+        overflow-x: auto;
+        gap: 1rem;
+        padding: 1rem 0;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin;
+        scrollbar-color: var(--lighter-green) transparent;
+        max-width: 100%;
+        margin: 0 auto;
+        -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+    }
+
+
+    .slides-row::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .slides-row::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .slides-row::-webkit-scrollbar-thumb {
+      background-color: var(--lighter-green);
+      border-radius: 10px;
+    }
+
+    .slides-row img {
+        height: 400px;
+        border-radius: 10px;
+        scroll-snap-align: start;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease;
+        flex: 0 0 auto;
+        width: auto; /* Add this to maintain aspect ratio */
+    }
+
+    .slides-row img:hover {
+      transform: scale(1.02);
+    }
+
+        /*------------------------------------------ footer */
+
+    footer {
+        background-color: var(--dark-green);
+        color: var(--light-beige);
+        padding: 3rem 2rem;
+        text-align: center;
+    }
+
+    footer h2 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        color: var(--light-beige);
+    }
+
+    /* Email Button - Fixed */
+    footer .btn.light.footer {
+        background-color: var(--light-beige);
+        color: var(--dark-green);
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+    }
+
+    footer p {
+        margin-top: 2rem;
+        font-size: 0.875rem;
+        font-weight: 500; 
+        color: var(--light-beige);
+    }
+
+    footer .socials {
+        margin: 0rem 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    footer .socials img {
+        width: 40px;
+        height: 40px;
+    }
+
+
+    .social-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        padding: 0rem;
+    }
+
+
+    .social-btn span {
+        color: var(--light-beige);
+        opacity: 0;
+        transform: translateY(-5px);
+        transition: 
+            opacity 0.3s ease,
+            transform 0.3s ease,
+            color 0.3s ease;
+        font-weight: 500;
+        order: 2;
+    }
+
+    .social-btn:hover span {
+        opacity: 1;
+        transform: translateY(0);
+        color: var(--lighter-green); /* this ensures the hover color */
+    }
+
+    .social-btn img {
+        width: 32px;
+        height: 32px;
+        transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .social-btn:hover img {
+        transform: scale(1.2);
+        color: var(--lighter-green);
+    }
+
+    .social-btn span {
+        color: var(--light-beige) !important;
+    }
+
+    .social-btn:hover span {
+        color: var(--lighter-green) !important;
+    }
+
+
+    /*_______________________________________________________
+    /* back to top button */
+
+    #backToTop {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        padding: 0.7rem 1.1rem;
+        font-size: 1.2rem;
+        background-color: var(--light-beige);
+        color: var(--green);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1000;
+    }
+
+    #backToTop.show {
+        opacity: 1;
+    }
+
+    #scrollProgressBar {
+    position: fixed;
+    right: 0.5rem;
+    top: 0;
+    width: 6px;
+    height: 0;
+    background-color: var(--light-beige);
+    z-index: 999;
+    transition: height 0.25s ease;
+    border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="network-canvas"></canvas>
+
+  <div class="content">
+    <a href="index.html#case" class="go-back-btn">Back to Case Studies</a>
+    <img src="images/recheio.png" alt="Recheio Logo" class="logo" />
+
+    <section class="section hero">
+      <div>   
+        <h1>“Eventually everything connects - people, ideas, objects.”<span style="font-style: italic; font-weight: 400; font-size: 1.5rem;">&#8212; Charles Eames</span></h1>
+        <p>Using this logic, our project explored how mapping relationships through network science could drive smarter product recommendations in B2B retail.</p>
+  </header>
+        <a href="#approach" class="btn">Explore the Approach</a>
+        <p style="font-style: italic; font-size: 0.8rem;">Due to NDA restrictions, specific data or client outcomes cannot be disclosed. This page focuses on the methodology and design process behind the solution.</p>
+      </div>
+    </section>
+
+    <section class="section" id="approach">
+      <div>
+        <h1>Business Understanding</h1>
+        <p>Recheio is part of <strong>Jerónimo Martins</strong>, a leading food distribution group in Portugal and Poland. With a competitive market with thin margins and a growing B2B base — especially in the <strong>HoReCa</strong> segment — Recheio embarked on a digital transformation to enhance personalization and increase customer retention. Our goal: use existing transactional data to deliver smarter, context-aware product recommendations that grow basket size and loyalty, with minimal operational cost.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div>
+        <h1>Addressed Challenges</h1>
+        <p>The project identified two main challenges: (1) enriching the customer data with behavioral and  business-specific attributes, and (2) delivering tailored recommendations through the right channels.  Our key challenges included limited customer metadata, the need for product-brand structuring, and designing a recommendation engine that works within the constraints of retail margins and behavior data. Private-label brands, such as Amanhecer and Masterchef, are critical to profitability and required specific prioritization in our solution.</p>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div>
+        <h1>Data Preparation Steps</h1>  <!-- if i remove it from here it becomes different from the other titles -->
+        <div class="carousel-container">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <p>Geographic Enrichment</p>
+                        <p>Used postal code and CTT API to derive district/county information for better regional segmentation.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <p>Behavioral KPIs</p>
+                        <p>Recency, Frequency, Products/Visit, Unique Products, Monthly Growth, and Activity Patterns.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <p>Brand Detection</p>
+                        <p>Used web scraping and keyword parsing to label and prioritize Recheio's private-label products.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <p>Margin Strategy</p>
+                        <p>Private-label products carry double the margin of national brands. Our system promotes these by design.</p>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Presentation carousel will go here later -->
+
+    <section class="section">
+      <div>
+        <h1>Graph-Based Data Modeling</h1>
+        <p>To handle millions of transactions and uncover hidden relationships, we used <strong>Neo4j</strong>, a graph-native database. This allowed us to connect customers, products, and behaviors using a Cross-Connect method. Graphs help answer questions like "What do influential buyers in a segment purchase?" or "What flows exist in-store?" — insights essential for effective recommendations.</p>
+        <img src="images/data_schema.svg" alt="Graph Schema" class="slide-img" />
+      </div>
+    </section>
+
+    <section class="section community-section" id="community">
+      <div>
+        <h1>Community Detection</h1>
+        <p>We applied the Louvain algorithm to group clients into behavior-based communities. From co-purchase patterns, we built a client-to-client similarity graph and discovered 27 cohesive communities. This enabled highly targeted recommendation logic, even when explicit client type data was missing.</p>    
+      </div>
+      <div class="community-bg-expand">
+        <img src="images/recheio_comm2.svg" alt="Client Communities" class="slide-img" />
+      </div>
+    </section>
+
+    <section class="section">
+      <div>
+        <h1>Recommendation Touchpoints</h1>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="home">Home Page</button>
+                <button class="tab-btn" data-tab="product">Product View</button>
+            <button class="tab-btn" data-tab="basket">Basket</button>
+            </div>
+            <div id="home" class="tab-content active">
+            <p><strong>Your Usuals:</strong> Smart Basket based on previous behavior, popularity, and MBA rules.<br>
+                <strong>Popular at This Moment:</strong> Time-decayed popularity in user’s community.<br>
+                <strong>Specially for You:</strong> Peer-based hybrid with PageRank + Jaccard filtering.</p>
+            </div>
+            <div id="product" class="tab-content">
+            <p><strong>Similar Products:</strong> Same category & brand prioritized based on similarity score.<br>
+                <strong>Frequently Bought Together:</strong> MBA rules using Apriori Algorithm.<br>
+                <strong>Recently Viewed:</strong> Session-based navigation support.</p>
+            </div>
+            <div id="basket" class="tab-content">
+            <p><strong>Did You Forget?</strong> Cross-checks Smart Basket against cart.<br>
+                <strong>Based on Your Style:</strong> Suggests ingredients from saved recipes.<br>
+                <strong>Trending Now:</strong> Real-time filtering of popular items not yet added.</p>
+            </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div>
+        <h1>Loyalty Program: Recheado Rewards</h1>
+        <p>To enrich client profiles and increase retention, we proposed a gamified loyalty program. Clients progress through reward tiers by completing profiles, placing orders via app, and consistent engagement. Rewards include discounts, early access to promotions, and free delivery. Each level aligns proportionally with client size and behavior.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div>
+        <h1>Board Presentation Slides</h1>
+        <div class="slides-row">
+            <img src="images/case-1=Variant1.png" alt="Slide 1" />
+            <img src="images/case-1=Variant2.png" alt="Slide 2" />
+            <img src="images/case-1=Variant3.png" alt="Slide 3" />
+            <img src="images/case-1=Variant4.png" alt="Slide 4" />
+            <img src="images/case-1=Variant5.png" alt="Slide 5" />
+            <img src="images/case-1=Variant6.png" alt="Slide 6" />
+            <img src="images/case-1=Variant7.png" alt="Slide 7" />
+            <img src="images/case-1=Variant8.png" alt="Slide 8" />
+            <img src="images/case-1=Variant9.png" alt="Slide 9" />
+            <img src="images/case-1=Variant10.png" alt="Slide 9" />
+            <img src="images/case-1=Variant11.png" alt="Slide 9" />
+            <img src="images/case-1=Variant12.png" alt="Slide 9" />
+            <img src="images/case-1=Variant13.png" alt="Slide 9" />
+        </div>
+        <p style="font-style: italic; font-size: 0.8rem;">Due to NDA restrictions, some slides were excluded.</p>
+
+      </div>
+    </section>
+
+    <footer>
+        <div class="wrapper">
+            <h1>Let’s work together!</h1>
+            
+            <div class="contact-buttons">
+                <a href="#" class="btn light footer">Contact Me</a>
+                <div class="socials">
+                    <a href="https://www.linkedin.com/in/catarina-gn-nunes" class="social-btn" target="_blank" rel="noopener noreferrer">
+                        <img src="images/Linkedin.svg" alt="LinkedIn" />
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/CatarinaGN" class="social-btn" target="_blank" rel="noopener noreferrer">
+                        <img src="images/Github.svg" alt="GitHub" />
+                        <span>GitHub</span>
+                    </a>
+                </div>
+             </div>
+
+             <p class="copyright">
+                &copy; 2025 Catarina Gonçalves Nunes. All rights reserved. All sensitive data and proprietary information has been anonymized or omitted in compliance with NDA requirements.
+            </p>
+        </div>
+    </footer>
+
+
+    <button id="backToTop" title="Back to top">⬆</button>
+    <div id="scrollProgressBar"></div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <script>
+    const canvas = document.getElementById("network-canvas");
+    const ctx = canvas.getContext("2d");
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    // Create nodes
+    const nodes = [];
+    const nodeCount = 80;
+    const maxConnections = 4;
+    const connectionDistance = 200;
+    let allPossibleConnections = [];
+    
+    class Node {
+      constructor(id) {
+        this.id = id;
+        this.resetPosition();
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = 2 + Math.random() * 2;
+        this.connections = [];
+        this.highlight = false;
+        this.pulse = 0;
+        this.targetPulse = 0;
+      }
+
+      resetPosition() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+      }
+
+      update() {
+        // Organic movement
+        this.x += this.vx;
+        this.y += this.vy;
+        
+        // Bounce off edges
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+        
+        // Smooth pulse animation
+        if (this.highlight) {
+          this.targetPulse = 1;
+        } else {
+          this.targetPulse = 0;
+        }
+        this.pulse += (this.targetPulse - this.pulse) * 0.1;
+      }
+
+      draw() {
+        // Draw glow if highlighted
+        if (this.highlight) {
+          const pulseSize = this.size + this.pulse * 2;
+          ctx.shadowBlur = 5 + this.pulse * 5;
+          ctx.shadowColor = 'rgba(168, 208, 192, 0.5)';
+          ctx.fillStyle = 'rgba(168, 208, 192, 0.6)';
+          
+          // Draw pulse effect
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, pulseSize, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(168, 208, 192, 0.1)';
+          ctx.fill();
+        }
+        
+        // Draw node
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${0.5 + Math.random() * 0.3})`;
+        ctx.fill();
+      }
+    }
+
+    // Initialize nodes
+    function initNodes() {
+      nodes.length = 0;
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push(new Node(i));
+      }
+    }
+
+    // Calculate all possible connections
+    function calculateConnections() {
+      allPossibleConnections = [];
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < connectionDistance * 1.5) {
+            allPossibleConnections.push({
+              from: i,
+              to: j,
+              distance: distance,
+              strength: 1 - (distance / (connectionDistance * 1.5))
+            });
+          }
+        }
+      }
+      // Sort connections by distance (closest first)
+      allPossibleConnections.sort((a, b) => a.distance - b.distance);
+    }
+
+    function updateConnections(scrollProgress) {
+      // Reset all connections and highlights
+      nodes.forEach(node => {
+        node.connections = [];
+        node.highlight = false;
+      });
+      
+      // Calculate how many connections should be active
+      const totalConnections = Math.floor(scrollProgress * allPossibleConnections.length * 0.7);
+      
+      // Activate connections
+      for (let i = 0; i < totalConnections && i < allPossibleConnections.length; i++) {
+        const conn = allPossibleConnections[i];
+        const fromNode = nodes[conn.from];
+        const toNode = nodes[conn.to];
+        
+        // Only connect if both nodes have available slots
+        if (fromNode.connections.length < maxConnections && toNode.connections.length < maxConnections) {
+          // Check if connection already exists
+          if (!fromNode.connections.includes(conn.to) && !toNode.connections.includes(conn.from)) {
+            fromNode.connections.push(conn.to);
+            toNode.connections.push(conn.from);
+            
+            // Highlight connections more subtly and consistently
+            if (Math.random() > 0.05) {
+              fromNode.highlight = true;
+              toNode.highlight = true;
+            }
+          }
+        }
+      }
+    }
+
+    function drawConnections() {
+      nodes.forEach(node => {
+        node.connections.forEach(targetId => {
+          const target = nodes[targetId];
+          
+          ctx.beginPath();
+          ctx.moveTo(node.x, node.y);
+          ctx.lineTo(target.x, target.y);
+          
+          // Style based on highlight status
+          if (node.highlight || target.highlight) {
+            ctx.strokeStyle = `rgba(168, 208, 192, ${0.3 + node.pulse * 0.3})`;
+            ctx.lineWidth = 1;
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = 'rgba(168, 208, 192, 0.3)';
+          } else {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.lineWidth = 0.5;
+            ctx.shadowBlur = 0;
+          }
+          
+          ctx.stroke();
+        });
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Calculate scroll progress (0 to 1)
+      const scrollY = window.scrollY;
+      const maxScroll = document.body.scrollHeight - window.innerHeight;
+      const scrollProgress = Math.min(scrollY / maxScroll, 1);
+      
+      // Update connections based on scroll
+      updateConnections(scrollProgress);
+      
+      // Update nodes
+      nodes.forEach(node => node.update());
+      
+      // Draw connections
+      drawConnections();
+      
+      // Draw nodes (after connections so they appear on top)
+      ctx.shadowBlur = 0;
+      nodes.forEach(node => node.draw());
+      
+      requestAnimationFrame(animate);
+    }
+
+    // Initialize everything
+    function init() {
+      initNodes();
+      calculateConnections();
+      animate();
+    }
+
+    // Start everything
+    init();
+
+    // Handle resize
+    function handleResize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      
+      // Reset node positions and recalculate connections
+      nodes.forEach(node => node.resetPosition());
+      calculateConnections();
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    // Reveal sections on scroll
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Make hero section visible immediately
+    document.querySelector('.hero').classList.add('visible');
+
+    const backToTopBtn = document.getElementById("backToTop");
+
+    window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+        backToTopBtn.classList.add("show");
+    } else {
+        backToTopBtn.classList.remove("show");
+    }
+    });
+
+    backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    const scrollProgressBar = document.getElementById("scrollProgressBar");
+
+    window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const scrollPercent = (scrollTop / docHeight) * 100;
+    scrollProgressBar.style.height = `${scrollPercent}%`;
+    });
+
+    const swiper = new Swiper('.swiper', {
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        effect: 'coverflow', // Add this for better visual effect
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+            rotate: 20,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+        },
+    });
+
+
+    // Community section background effect
+    const communitySection = document.querySelector('.community-section');
+    const communityBg = document.querySelector('.community-bg-expand');
+
+    const communityObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+        communityBg.style.transform = 'scaleY(1)';
+        setTimeout(() => {
+            communityBg.style.transform = 'scaleY(0)';
+        }, 1500);
+        }
+    });
+    }, { threshold: 0.3 });
+
+    communityObserver.observe(communitySection);
+
+  </script>
+  
+</body>
+</html>
+
