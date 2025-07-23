@@ -40,7 +40,6 @@
       z-index: 1;
     }
 
-    
 
     .section {
       min-height: 100vh;
@@ -121,8 +120,8 @@
     }
 
     p strong {
-      color: var(--lighter-green);
-      font-weight: 500;
+      color: var(--dark-brown);
+      font-weight: 700;
     }
 
     .btn {
@@ -197,25 +196,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
-    .community-section .slide-img {
-        position: relative;
-        z-index: 2;
-        transition: transform 0.5s ease;
-    }
-
-    .community-bg-expand {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--light-green);
-        z-index: 1;
-        transform: scaleY(0);
-        transform-origin: bottom;
-        transition: transform 1s ease;
-    }
-
     .tabs {
       display: flex;
       justify-content: center;
@@ -274,41 +254,82 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    .viz-section {
+      position: relative;
+      min-height: 400vh;
+      background-color: transparent;
+    }
+
+    .viz-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .viz-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--light-green);
+      opacity: 0;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .viz-svg-wrapper {
+      position: relative;
+      width: 100vmin;
+      height: 100vmin;
+      transform-origin: center center;
+    }
+
+    .viz-svg {
+      width: 100%;
+      height: 100%;
+      /* Critical quality preservation properties */
+      image-rendering: optimizeQuality;
+      shape-rendering: geometricPrecision;
+      text-rendering: geometricPrecision;
+      color-rendering: optimizeQuality;
+    }
+
+    .slides-row-container {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+    }
+
     .slides-row {
-        display: flex;
-        overflow-x: auto;
-        gap: 1rem;
-        padding: 1rem 0;
-        scroll-snap-type: x mandatory;
-        scrollbar-width: thin;
-        scrollbar-color: var(--lighter-green) transparent;
-        max-width: 100%;
-        margin: 0 auto;
-        -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
     }
 
-
-    .slides-row::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    .slides-row::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .slides-row::-webkit-scrollbar-thumb {
-      background-color: var(--lighter-green);
-      border-radius: 10px;
+    .slide-item {
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      width: 80%;
+      max-width: 600px;
     }
 
     .slides-row img {
-        height: 400px;
-        border-radius: 10px;
-        scroll-snap-align: start;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        transition: transform 0.3s ease;
-        flex: 0 0 auto;
-        width: auto; /* Add this to maintain aspect ratio */
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
     }
 
     .slides-row img:hover {
@@ -519,15 +540,23 @@
       </div>
     </section>
 
-    <section class="section community-section" id="community">
-      <div>
+    <section class="section title-section">
+      <div>   
         <h1>Community Detection</h1>
-        <p>We applied the Louvain algorithm to group clients into behavior-based communities. From co-purchase patterns, we built a client-to-client similarity graph and discovered 27 cohesive communities. This enabled highly targeted recommendation logic, even when explicit client type data was missing.</p>    
-      </div>
-      <div class="community-bg-expand">
-        <img src="images/recheio_comm2.svg" alt="Client Communities" class="slide-img" />
+        <p>We applied the Louvain algorithm to group clients into behavior-based communities. From co-purchase patterns, we built a client-to-client similarity graph and discovered 27 cohesive communities. This enabled highly targeted recommendation logic, even when explicit client type data was missing.</p>
       </div>
     </section>
+
+    <section class="section viz-section" id="viz-section">
+      <!-- Visualization trigger section -->
+    </section>
+
+    <div class="viz-container">
+      <div class="viz-background"></div>
+      <div class="viz-svg-wrapper">
+        <img src="images/recheio_comm2.svg" class="viz-svg" alt="Network Visualization">
+      </div>
+    </div>
 
     <section class="section">
       <div>
@@ -565,20 +594,46 @@
     <section class="section">
       <div>
         <h1>Board Presentation Slides</h1>
-        <div class="slides-row">
-            <img src="images/case-1=Variant1.png" alt="Slide 1" />
-            <img src="images/case-1=Variant2.png" alt="Slide 2" />
-            <img src="images/case-1=Variant3.png" alt="Slide 3" />
-            <img src="images/case-1=Variant4.png" alt="Slide 4" />
-            <img src="images/case-1=Variant5.png" alt="Slide 5" />
-            <img src="images/case-1=Variant6.png" alt="Slide 6" />
-            <img src="images/case-1=Variant7.png" alt="Slide 7" />
-            <img src="images/case-1=Variant8.png" alt="Slide 8" />
-            <img src="images/case-1=Variant9.png" alt="Slide 9" />
-            <img src="images/case-1=Variant10.png" alt="Slide 9" />
-            <img src="images/case-1=Variant11.png" alt="Slide 9" />
-            <img src="images/case-1=Variant12.png" alt="Slide 9" />
-            <img src="images/case-1=Variant13.png" alt="Slide 9" />
+
+        <div class="slides-row-container">
+          <div class="slides-row">
+            <div class="slide-item">
+              <img src="images/case-1=Variant1.png" alt="Slide 1" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant2.png" alt="Slide 2" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant3.png" alt="Slide 3" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant4.png" alt="Slide 4" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant5.png" alt="Slide 5" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant6.png" alt="Slide 6" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant7.png" alt="Slide 7" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant8.png" alt="Slide 8" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant9.png" alt="Slide 9" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant10.png" alt="Slide 10" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant11.png" alt="Slide 11" />
+            </div>
+            <div class="slide-item">
+              <img src="images/case-1=Variant12.png" alt="Slide 12" />
+            </div>
+          </div>
         </div>
         <p style="font-style: italic; font-size: 0.8rem;">Due to NDA restrictions, some slides were excluded.</p>
 
@@ -897,21 +952,134 @@
 
 
     // Community section background effect
-    const communitySection = document.querySelector('.community-section');
-    const communityBg = document.querySelector('.community-bg-expand');
 
-    const communityObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-        communityBg.style.transform = 'scaleY(1)';
-        setTimeout(() => {
-            communityBg.style.transform = 'scaleY(0)';
-        }, 1500);
+    document.addEventListener('DOMContentLoaded', function() {
+      const vizSection = document.getElementById('viz-section');
+      const vizContainer = document.querySelector('.viz-container');
+      const vizBackground = document.querySelector('.viz-background');
+      const vizSvgWrapper = document.querySelector('.viz-svg-wrapper');
+      const vizSvg = document.querySelector('.viz-svg');
+      
+      // Force high quality rendering
+      const enforceQuality = () => {
+        vizSvg.style.imageRendering = 'optimizeQuality';
+        vizSvg.style.transform = 'translateZ(0)';
+      };
+      
+      // Preload the SVG
+      const img = new Image();
+      img.src = 'images/recheio_comm2.svg';
+      img.onload = function() {
+        vizSvg.src = this.src;
+        enforceQuality();
+      };
+
+      function updateAnimation() {
+        const scrollY = window.scrollY;
+        const sectionTop = vizSection.offsetTop;
+        const sectionHeight = vizSection.offsetHeight;
+        const viewportHeight = window.innerHeight;
+        
+        let progress = (scrollY - sectionTop + viewportHeight * 0.3) / 
+                      (sectionHeight - viewportHeight * 0.3);
+        progress = Math.min(Math.max(progress, 0), 1);
+
+        if (progress > 0 && progress < 1) {
+          // Phase 1: Scale 0.3-10 with fade in (0-33%)
+          if (progress <= 0.33) {
+            const phaseProgress = progress / 0.33;
+            const scale = 0.3 + (10 - 0.3) * phaseProgress;
+            vizBackground.style.opacity = phaseProgress;
+            vizSvgWrapper.style.opacity = phaseProgress;
+            vizSvgWrapper.style.transform = `scale(${scale}) translateZ(0)`;
+          } 
+          // Phase 2: Scale 10-20 fully visible (33-66%)
+          else if (progress <= 0.66) {
+            const phaseProgress = (progress - 0.33) / 0.33;
+            const scale = 10 + (20 - 10) * phaseProgress;
+            vizBackground.style.opacity = 1;
+            vizSvgWrapper.style.opacity = 1;
+            vizSvgWrapper.style.transform = `scale(${scale}) translateZ(0)`;
+          }
+          // Phase 3: Scale 20-30 with fade out (66-100%)
+          else {
+            const phaseProgress = (progress - 0.66) / 0.34;
+            const scale = 20 + (30 - 20) * phaseProgress;
+            vizBackground.style.opacity = 1 - phaseProgress;
+            vizSvgWrapper.style.opacity = 1 - phaseProgress;
+            vizSvgWrapper.style.transform = `scale(${scale}) translateZ(0)`;
+          }
+          
+          enforceQuality();
+        } else {
+          vizBackground.style.opacity = '0';
+          vizSvgWrapper.style.opacity = '0';
+          vizSvgWrapper.style.transform = 'scale(0.3) translateZ(0)';
         }
-    });
-    }, { threshold: 0.3 });
 
-    communityObserver.observe(communitySection);
+        requestAnimationFrame(updateAnimation);
+      }
+
+      // Start animation
+      updateAnimation();
+      
+      // Ensure quality on resize
+      window.addEventListener('resize', enforceQuality);
+    });
+
+    // Tab functionality
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all buttons and contents
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding content
+        btn.classList.add('active');
+        const tabId = btn.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+    
+    // Initialize horizontal image carousel
+    const slidesRow = document.querySelector('.slides-row');
+    if (slidesRow) {
+      slidesRow.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        slidesRow.scrollLeft += e.deltaY;
+      });
+      
+      // Enable touch scrolling for mobile
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      slidesRow.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - slidesRow.offsetLeft;
+        scrollLeft = slidesRow.scrollLeft;
+      });
+
+      slidesRow.addEventListener('mouseleave', () => {
+        isDown = false;
+      });
+
+      slidesRow.addEventListener('mouseup', () => {
+        isDown = false;
+      });
+
+      slidesRow.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slidesRow.offsetLeft;
+        const walk = (x - startX) * 2;
+        slidesRow.scrollLeft = scrollLeft - walk;
+      });
+    }
+
 
   </script>
   
