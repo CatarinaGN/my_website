@@ -36,25 +36,27 @@
       display: flex;
       transition: transform 0.5s ease-out;
       will-change: transform;
-      padding: 20px 0;
+      padding: 40px 0;
     }
 
     .slide-wrapper {
-      flex: 0 0 100%;
+      flex: 0 0 calc(100% / 3);
       display: flex;
       justify-content: center;
-      padding: 0 20px;
+      padding: 0 10px;
       box-sizing: border-box;
+      transition: all 0.3s ease;
     }
 
     .slide {
-      width: 800px;
-      max-width: 100%;
+      width: 100%;
+      max-width: 400px;
       transition: all 0.4s ease;
       position: relative;
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      cursor: pointer;
     }
 
     .slide img {
@@ -67,14 +69,14 @@
     }
 
     .slide.active {
-      transform: scale(1.05);
+      transform: scale(1.1);
       z-index: 2;
       box-shadow: 0 20px 50px rgba(0,0,0,0.3);
     }
 
     .slide:not(.active) {
-      opacity: 0.6;
-      filter: brightness(0.8);
+      opacity: 0.8;
+      filter: brightness(0.9);
       transform: scale(0.9);
     }
 
@@ -135,6 +137,48 @@
       background: rgba(255, 255, 255, 0.3);
       transform: scale(1.1);
     }
+
+    /* Zoom Modal */
+    .zoom-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .zoom-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .zoom-content {
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    .zoom-content img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .close-zoom {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -148,7 +192,7 @@
         <div class="carousel-viewport">
           <div class="carousel-track">
             <div class="slide-wrapper">
-              <div class="slide active">
+              <div class="slide">
                 <img src="images/case-1=Variant1.png" alt="Slide 1" />
               </div>
             </div>
@@ -158,7 +202,7 @@
               </div>
             </div>
             <div class="slide-wrapper">
-              <div class="slide">
+              <div class="slide active">
                 <img src="images/case-1=Variant3.png" alt="Slide 3" />
               </div>
             </div>
@@ -222,6 +266,14 @@
     </div>
   </section>
 
+  <!-- Zoom Modal -->
+  <div class="zoom-modal">
+    <span class="close-zoom">&times;</span>
+    <div class="zoom-content">
+      <img src="" alt="Zoomed Slide">
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const track = document.querySelector('.carousel-track');
@@ -230,8 +282,11 @@
       const nav = document.querySelector('.carousel-nav');
       const prevBtn = document.querySelector('.prev');
       const nextBtn = document.querySelector('.next');
+      const zoomModal = document.querySelector('.zoom-modal');
+      const zoomImg = document.querySelector('.zoom-content img');
+      const closeZoom = document.querySelector('.close-zoom');
       
-      let currentIndex = 0;
+      let currentIndex = 2; // Start with center slide active
       
       // Create navigation dots
       slides.forEach((_, index) => {
@@ -243,6 +298,7 @@
       
       // Set initial active dot
       updateNav();
+      updateCarousel();
       
       // Arrow navigation
       prevBtn.addEventListener('click', () => {
@@ -259,8 +315,33 @@
           goToSlide(currentIndex - 1);
         } else if (e.key === 'ArrowRight') {
           goToSlide(currentIndex + 1);
+        } else if (e.key === 'Escape') {
+          closeZoomModal();
         }
       });
+      
+      // Click to zoom functionality
+      slides.forEach(slide => {
+        slide.addEventListener('click', function() {
+          const imgSrc = this.querySelector('img').src;
+          zoomImg.src = imgSrc;
+          zoomModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+      
+      // Close zoom modal
+      closeZoom.addEventListener('click', closeZoomModal);
+      zoomModal.addEventListener('click', function(e) {
+        if (e.target === zoomModal) {
+          closeZoomModal();
+        }
+      });
+      
+      function closeZoomModal() {
+        zoomModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
       
       function updateCarousel() {
         // Calculate offset to center the active slide
@@ -305,9 +386,6 @@
       
       // Handle window resize
       window.addEventListener('resize', updateCarousel);
-      
-      // Initialize
-      updateCarousel();
     });
   </script>
 </body>
