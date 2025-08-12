@@ -132,6 +132,25 @@
       font-weight: 700;
     }
 
+    g {
+      display: block;
+      font-size: 1rem;
+      color: var(--light-beige);
+      font-weight: 400;
+      max-width: 700px;
+      margin: 20px auto;
+      line-height: 1.7;
+      opacity: 0.9;
+      text-align: justify;
+      text-align-last: left;
+    }
+
+
+    g strong {
+      color: var(--dark-brown);
+      font-weight: 700;
+    }
+
     .btn {
       display: inline-block;
       background-color: var(--light-green);
@@ -174,7 +193,7 @@
       backdrop-filter: blur(10px);
       border-radius: 10px;
       padding: 4rem;
-      min-height: 200px;
+      min-height: 370px;
       max-width: 300px;
       display: flex;
       flex-direction: column;
@@ -320,14 +339,15 @@
 
     .viz-note {
       position: absolute;
-      top: 22%;
-      left: 35%;
+      top: 10%;
+      left: 10%;
       opacity: 0;
       transform: translateY(-10px);
       transition: opacity 0.5s ease, transform 0.5s ease;
       pointer-events: none;
       z-index: 10;
       max-width: 300px;
+
     }
 
     .viz-note.show {
@@ -339,11 +359,13 @@
       background: var(--light-beige);
       color: var(--light-brown);
       padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 1.1rem;
+      border-radius: 10px;
+      font-size: 1rem;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
       white-space: normal;
       line-height: 1.4;
+      text-align: justify;
+      text-align-last: center;
     }
 
     .note-arrow {
@@ -653,7 +675,6 @@
       <div>   
         <h1>“Eventually everything connects - people, ideas, objects.”<span style="font-style: italic; font-weight: 400; font-size: 1.5rem;">&#8212; Charles Eames</span></h1>
         <p>Using this logic, our project explored how mapping relationships through network science could drive smarter product recommendations in B2B retail.</p>
-  </header>
         <a href="#approach" class="btn">Explore the Approach</a>
         <p style="font-style: italic; font-size: 0.8rem;">Due to NDA restrictions, specific data or client outcomes cannot be disclosed. This page focuses on the methodology and design process behind the solution.</p>
       </div>
@@ -662,15 +683,28 @@
     <section class="section" id="approach">
       <div>
         <h1>Business Understanding</h1>
-        <p>Recheio is part of <strong>Jerónimo Martins</strong>, a leading food distribution group in Portugal and Poland. With a competitive market with thin margins and a growing B2B base — especially in the <strong>HoReCa</strong> segment — Recheio embarked on a digital transformation to enhance personalization and increase customer retention. Our goal: use existing transactional data to deliver smarter, context-aware product recommendations that grow basket size and loyalty, with minimal operational cost.</p>
+        <p>Recheio is part of <strong>Jerónimo Martins</strong>, a leading food distribution
+           group in Portugal, Poland and Colombia. Being part of a competitive market with thin margins, and having a 
+           growing B2B base — especially in the <strong>HoReCa</strong> segment — Recheio 
+           embarked on a digital transformation journey to work on personalization and increase 
+           customer retention.<strong>   Our goal:</strong> use existing transactional data to deliver smarter, 
+           context-aware product recommendations that improves the customer experience, with 
+           minimal operational cost.</p>
       </div>
     </section>
 
     <section class="section">
       <div>
         <h1>Addressed Challenges</h1>
-        <p>The project identified two main challenges: (1) enriching the customer data with behavioral and  business-specific attributes, and (2) delivering tailored recommendations through the right channels.  Our key challenges included limited customer metadata, the need for product-brand structuring, and designing a recommendation engine that works within the constraints of retail margins and behavior data. Private-label brands, such as Amanhecer and Masterchef, are critical to profitability and required specific prioritization in our solution.</p>
-
+        <p>During this project, we needed to address two main challenges: <strong>(1) Data 
+          quality and completeness</strong> — enriching customer data with behavioral and 
+          business-specific attributes, and <strong>(2) Recommender system</strong> — delivering 
+          personalized recommendations through the right channels. Key obstacles 
+          included limited customer metadata, the need for product-brand structuring, 
+          and designing a recommendation engine that balanced retail margin constraints 
+          with behavioral data patterns. For instance, prioritizing private-label 
+          brands—such as Amanhecer and Masterchef—was critical to profitability, 
+          demanded attention in our solution.</p>
       </div>
     </section>
 
@@ -682,19 +716,19 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <p>Geographic Enrichment</p>
-                        <p>Used postal code and CTT API to derive district/county information for better regional segmentation.</p>
+                        <p>For the client dimension, one of the first initiatives we implemented was deriving district and county information to visualize the geographic distribution of our clients. This was achieved using an API provided by CTT (the Portuguese postal service).</p>
                     </div>
                     <div class="swiper-slide">
                         <p>Behavioral KPIs</p>
-                        <p>Recency, Frequency, Products/Visit, Unique Products, Monthly Growth, and Activity Patterns.</p>
+                        <p>Recency (Days Since Last Purchase), Visits Count, Products per Visit, Unique Products Purchased, and Activity Patterns (eg. Monthly Transaction Variability (Standard Deviation), Active Months, Average Days Between Purchases, etc.).</p>
                     </div>
                     <div class="swiper-slide">
                         <p>Brand Detection</p>
-                        <p>Used web scraping and keyword parsing to label and prioritize Recheio's private-label products.</p>
+                        <p>We performed text mining on product names and developed a custom scraper to extract product–brand associations directly from Recheio's public website. This was strictly for academic purposes, with a high response delay (~5000ms) to ensure ethical usage and prevent overloading the site.</p>
                     </div>
                     <div class="swiper-slide">
                         <p>Margin Strategy</p>
-                        <p>Private-label products carry double the margin of national brands. Our system promotes these by design.</p>
+                        <p>To optimize profitability, we applied margin-based prioritization in the recommender algorithm, ensuring that higher-margin products (private-label) were given more weight in recommendations while still maintaining customer relevance.</p>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
@@ -708,7 +742,17 @@
     <section class="section">
       <div>
         <h1>Graph-Based Data Modeling</h1>
-        <p>To handle millions of transactions and uncover hidden relationships, we used <strong>Neo4j</strong>, a graph-native database. This allowed us to connect customers, products, and behaviors using a Cross-Connect method. Graphs help answer questions like "What do influential buyers in a segment purchase?" or "What flows exist in-store?" — insights essential for effective recommendations.</p>
+        <p>We explored a new way to achieve predictive influence in communities using 
+          graph algorithms. Handling millions of transactions benefits from a database 
+          built for big data, which is why we chose <strong>Neo4j</strong> — a native graph platform that 
+          stores transactional data and runs graph algorithms efficiently.
+          When recommending products, it’s crucial to understand who the influencers are in a 
+          community, what they buy, and which trends they create. <strong>Graphs mathematically represent 
+          these networks, covering areas like transactions, logistics, commerce, transportation, 
+          and movement.</strong> Our Cross-Connect method links different entities — people, products, locations — 
+          based on shared relationships, providing the foundation for many recommendation systems and 
+          in-store flow analysis. This allows us to answer questions such as: Which paths do customers 
+          take most often? Which corridors hold their attention the longest?</p>
         <img src="images/data_schema.svg" alt="Graph Schema" class="slide-img" />
       </div>
     </section>
@@ -716,7 +760,11 @@
     <section class="section title-section">
       <div>   
         <h1>Community Detection</h1>
-        <p>We applied the Louvain algorithm to group clients into behavior-based communities. From co-purchase patterns, we built a client-to-client similarity graph and discovered 27 cohesive communities. This enabled highly targeted recommendation logic, even when explicit client type data was missing.</p>
+          <p>To construct client communities from behavioural data, we project a bipartite Neo4j graph with <strong>Client</strong> and <strong>Product</strong> nodes linked by <strong>BOUGHT</strong> relationships, capturing all purchase interactions. 
+            From this, we create a client similarity graph: pairs of clients who co-purchased products are connected by weighted 
+            <strong>PRODUCT_SIMILAR</strong> edges, collapsing the bipartite structure into a direct client-to-client network. 
+            We then run the <strong>Louvain community detection algorithm</strong>, which assigns a community label to each 
+            client, grouping them into ‘clusters’ based on connected subgraphs, each community representing a  cohort of customers with <strong>similar shopping behaviour.</strong></p>
       </div>
     </section>
 
@@ -730,7 +778,7 @@
         <img src="images/recheio_comm2.svg" class="viz-svg" alt="Network Visualization">
       </div>
       <div class="viz-note" id="viz-note">
-        <div class="note-text">Community cluster A</div>
+        <div class="note-text">Our analysis identified distinct client communities, which we categorized based on their unique purchasing behaviors. For instance, Community X demonstrated near-daily purchases of prepared fresh vegetables, earning them the "Veggie Group" designation, while Community Y's exclusive seasonal purchases of professional-grade gelato warranted their "Ice Cream Specialists" label.</div>
         <div class="note-arrow"></div>
       </div>
     </div>
@@ -744,19 +792,46 @@
             <button class="tab-btn" data-tab="basket">Basket</button>
             </div>
             <div id="home" class="tab-content active">
-            <p><strong>Your Usuals:</strong> Smart Basket based on previous behavior, popularity, and MBA rules.<br>
-                <strong>Popular at This Moment:</strong> Time-decayed popularity in user’s community.<br>
-                <strong>Specially for You:</strong> Peer-based hybrid with PageRank + Jaccard filtering.</p>
+            <g><strong>Your Usuals (Smart Basket):</strong> A rule-based engine that 
+              adapts to shopping activity. For <strong>New Users</strong> (no purchase 
+              history), the system recommends the most popular items in the month of 
+              login. <strong>Light Shoppers</strong> (1–4 unique products) include past 
+              purchases, then fill with Market Basket Analysis (MBA) “Goes well with…” 
+              rules and similar products. Lastly, <strong>Heavy Users</strong> (5+ 
+              unique products) display their most frequent items from the last 6 months, 
+              considering the login date.</g>
+            <g><strong>Popular at This Moment:</strong> Captures <strong>community-driven 
+              trends using a progressive time-decay window</strong> approach. Clients are 
+              grouped into their communities, and for each one we use the login date to scan 
+              product purchases in shrinking windows (7–180 days). This prioritizes products 
+              that are locally popular, timely with seasonal patterns, and stable over time. 
+              If data is sparse, the system backs off to larger windows or all-time popular 
+              items, ensuring consistent recommendations even for small communities.</g>
+            <g><strong>Specially for You (Peer-Based Recommendations):</strong> This block delivers 
+              peer-based personalization through a two-stage hybrid approach: PageRank runs on the 
+              client-product similarity graph to identify influential clients, users who contribute 
+              to product connectivity through co-purchase behaviour. These candidates are filtered 
+              via Jaccard similarity, retaining only those with real behavioural overlap with the 
+              target user. Products are then ranked by a similarity-weighted score, highlighting 
+              items similar clients bought but the user has not yet purchased.</g>
             </div>
             <div id="product" class="tab-content">
-            <p><strong>Similar Products:</strong> Same category & brand prioritized based on similarity score.<br>
-                <strong>Frequently Bought Together:</strong> MBA rules using Apriori Algorithm.<br>
-                <strong>Recently Viewed:</strong> Session-based navigation support.</p>
+            <g><strong>Similar Products:</strong> This module identifies the products most similar to the one currently viewed. The primary logic matches products within the same category and from the list of private-label 
+              brands (e.g., Amanhecer, Masterchef, Gourmês). Similarity is derived from the precomputed score we referred to before. If fewer than five suitable items are found, the system falls back to similar 
+              products regardless of category, still prioritizing those from preferred brands. </g>
+            <g><strong>Frequently Bought Together:</strong> This section leverages Market Basket Analysis 
+              (MBA) rules generated from historical purchase data using the Apriori Algorithm. Products 
+              are shown if they frequently appear as consequents in association rules where the current 
+              product was an antecedent, indicating a strong behavioural link ("people who bought this 
+              also bought..."). All rules are refreshed regularly and stored in Neo4j with full metadata 
+              (support, confidence, lift, leverage, conviction), allowing for future model interpretability 
+              and explainability.</g>
+            <g><strong>Recently Viewed:</strong> Session-based navigation support.</g>
             </div>
             <div id="basket" class="tab-content">
-            <p><strong>Did You Forget?</strong> Cross-checks Smart Basket against cart.<br>
-                <strong>Based on Your Style:</strong> Suggests ingredients from saved recipes.<br>
-                <strong>Trending Now:</strong> Real-time filtering of popular items not yet added.</p>
+            <g><strong>Did You Forget?</strong> Cross-checks Smart Basket against cart to detect missing products, and if needed, applies fallback logic using MBA and similar product graphs.</g>
+            <g><strong>Based on Your Style:</strong>  Analyses saved recipes and suggests missing ingredients that align with the client’s current cart and preferences, creating a bridge between content-driven and transactional behaviours. </g>
+            <g><strong>Trending Now:</strong> Real-time filtering of popular items not yet added.</g>
             </div>
       </div>
     </section>
@@ -764,7 +839,14 @@
     <section class="section">
       <div>
         <h1>Loyalty Program: Recheado Rewards</h1>
-        <p>To enrich client profiles and increase retention, we proposed a gamified loyalty program. Clients progress through reward tiers by completing profiles, placing orders via app, and consistent engagement. Rewards include discounts, early access to promotions, and free delivery. Each level aligns proportionally with client size and behavior.</p>
+        <p>The real game-changer involves <strong>rethinking the client relationship by incentivizing data sharing 
+          through gamification</strong> (many clients simply will not complete their profile unless there is a strong 
+          reason). We propose a loyalty initiative called the ‘Recheado Rewards Program’, a gamification-driven loyalty 
+          scheme designed to reward engagement and strengthen client relationships. 
+          Clients progress through reward tiers by completing profiles, 
+          placing orders via app, and consistent engagement. Rewards include discounts, 
+          early access to promotions, and free delivery. Each level aligns proportionally 
+          with client size and behavior.</p>
       </div>
     </section>
 
@@ -1145,10 +1227,11 @@
     scrollProgressBar.style.height = `${scrollPercent}%`;
     });
 
+
     const swiper = new Swiper('.swiper', {
         loop: true,
         autoplay: {
-            delay: 3000,
+            delay: 5000,
             disableOnInteraction: false,
         },
         pagination: {
@@ -1159,6 +1242,7 @@
         grabCursor: true,
         centeredSlides: true,
         slidesPerView: 'auto',
+        loop: true,
         coverflowEffect: {
             rotate: 20,
             stretch: 0,
@@ -1167,6 +1251,17 @@
             slideShadows: true,
         },
     });
+
+
+    // start autoplay when section visible
+    const swiperSection = document.querySelector('.carousel-container');
+    const swiperObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            swiper.autoplay.start();
+        }
+    }, { threshold: 0.5 });
+
+    swiperObserver.observe(swiperSection);
 
 
     // Community section background effect
