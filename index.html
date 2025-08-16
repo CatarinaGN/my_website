@@ -14,17 +14,18 @@
         <header class="fullscreen-header">
             <nav id="mainNav">
                 <div class="wrapper">
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Work</a></li>
-                        <li><a href="#">About</a></li>
+                    <ul>                        
+                        <li><a href="index.html#about-me">About</a></li>
+                        <li><a href="index.html#recent-work">Work</a></li>
+                        <li><a href="https://www.linkedin.com/in/catarina-gn-nunes" target="_blank">LinkedIn</a></li>
+                        <li><a href="https://github.com/CatarinaGN" target="_blank">GitHub</a></li>
                     </ul>
                 </div>
             </nav>
 
             
 
-            <div class="wrapper">
+            <div class="wrapper" id="home">
                 <!-- Scroll indicator -->
                 <div class="scroll-indicator"></div>
                 
@@ -32,8 +33,9 @@
                     <div class="left">
                         <h1>I'm Catarina, <br>A Data Science <br>Master's Student</h1>
                         <div class="button-group">
-                            <a href="#" class="btn dark">View My Work<img src="images/chevron-right-square.svg" alt="" class="btn-icon"></a>
-                            <a href="#" class="btn light">Contact Me</a>
+                    
+                            <a href="documents\Catarina_GN_CV.pdf" class="btn dark" target="_blank">View My CV<img src="images/chevron-right-square.svg" alt="" class="btn-icon"></a>
+                            <a href="mailto:catarina.goncalves.n@gmail.com" class="btn light">Contact Me</a>
                         </div>
                     </div>
                     <div class="right">
@@ -48,20 +50,59 @@
     <!-- End of Header section-->
 
     <!-- About Me Section -->
-    <section class="about-me-section">
+    <section class="about-me-section" id="about-me">
         <div class="wrapper">
             <div class="about-header">
                 <h2>A Little Bit About Me</h2>
-
-                <a href="https://scanned.page/p/6867f30fb2505" class="btn dark" target="_blank">My Journey<img src="images/chevron-right-square.svg" alt="" class="btn-icon"></a>
             </div>
             
-            <p>I'll start with a confession: I don't know everything. But honestly, I think that's the fun of it.
-               I’m early in my journey, but I learn fast and deeply, and more importantly, I love learning. Whether it’s a technical concept, a random bit of history, or just figuring out how to do something better, I enjoy connecting the dots and applying things in creative ways.
-               At one point, I took a course on graph databases just out of curiosity. I’ve always been fascinated by networks — maybe because I come from a biology background and spent high school obsessing over how systems in the human body connect and interact. Later on, I ended up using that same knowledge to build a recommender system for a project with almost no data. Surprisingly, it worked out really well. I also have a habit of going down rabbit holes on random topics. Like the time I spent two months completely fixated on Ottoman history, for no practical reason at all — other than it being genuinely fascinating. People say things like that will never come up in conversation, but I think curiosity, pattern recognition, and understanding human context matter just as much as numbers do, especially in the world of data.
-               Outside of work, I danced ballet for 11 years and eventually got into martial arts. Very different vibes, I know, but both taught me discipline, creativity, and how to use what I’ve got to my advantage. (Even if what I’ve got is mostly flexibility and stubbornness — I’m definitely not the most physically strong person you’ll ever meet. 🫠)
-               So no, I don’t know everything. But I’m curious, I learn quickly, and I really enjoy turning ideas into something real. I hope to bring that mindset to every team I join — and, hopefully, make a positive and slightly unexpected impact along the way.
+            <p>
+            I'll start with a confession: I don’t know everything. But honestly, that’s what makes the journey interesting. 
+            What I do know is how to learn quickly, connect ideas across fields, and turn them into something useful.
+            </p>
 
+            <p>
+            I began with a <strong>Bachelor of Business Administration</strong> and later a post-graduate degree in Data Science for Marketing, 
+            which opened the door to the STEM path I’m now fully pursuing with a <strong>Master’s in Data Science</strong>. But my foundation goes back further—high school in 
+            <strong>Science and Technology</strong> gave me a taste of biology, chemistry, and especially the beauty of networks and genetics. 
+            Those interests still echo today, whether I’m exploring network science in my master’s, experimenting with genetic algorithms, 
+            or even applying chemistry principles in the kitchen when I cook.
+            </p>
+
+            <p>
+            Professionally, I’ve had the chance to bridge business and science in very different settings. 
+             working in the vineyards—where I learned not just about management, 
+            but also about oenology, soil, and the science behind the craft. Later, at <strong>NOS Technology</strong>, 
+            the country’s leading telecommunications provider, I analyzed mobile network performance, 
+            studying cell throughput versus customer satisfaction. 
+            </p>
+
+            <p>
+            Professionally, I’ve had the chance to bridge business and science in very different settings. 
+            I spent a year at one of Portugal’s largest wine companies, in the International Trade department, 
+            collaborating with markets such as Spain, France, China, and across Latin America. To sell wine globally, I had to understand not only the logistics and commercial side but also the process and culture behind it. 
+            Being based in the vineyards meant daily contact with oenology, soil, and production—an experience that connected the business of wine 
+            with the science that makes it possible. Later, at <strong>NOS Technology</strong>, Portugal’s leading telecommunications provider, 
+            I shifted focus to data, analyzing mobile network performance by studying cell throughput versus customer satisfaction. 
+            These experiences taught me how valuable it is to move between worlds, and how data connects them all.
+            </p>
+
+
+            <p>
+            Outside of work, I trained in ballet for 11 years and later in martial arts. Different? Yes. But together they shaped my mindset: 
+            discipline, adaptability, and the ability to use whatever I have to my advantage.
+            </p>
+
+            <p>
+            For me, the red thread is curiosity. As Charles Eames said, 
+            <q><em>Eventually everything connects—people, ideas, objects</em></q>, 
+            and I share that belief. Being a generalist at heart, I see value in 
+            interdisciplinary knowledge as a way to spark new ideas—echoing Steve Jobs’s reminder that 
+            <q><em>creativity is just connecting things.</em></q>
+            </p>
+
+            <p>
+            So no, I don’t know everything. But I do know how to explore, to connect, and to create—and I bring that mindset to every project and team I join.
             </p>
             
             <!-- Fun CV Button -->
@@ -157,12 +198,20 @@
                     <div class="work-content">
                         <h3>AI Chatbot for Fidelidade Salesforce</h3>
                         <p>FideBot is an AI assistant created for Fidelidade as part of a top-ranked project (3rd out of 27). Trained on 83 internal documents using RAG, it helps sales teams quickly find vendor-specific information on the Fidelidade My Savings product—which includes financial investment and saving options—improving data access, customer interactions, and productivity while keeping development costs low.</p>
-                        <a href="#" class="work-link">View Case Study</a>
+                        <a href="fidelidade.html#recent-work" class="work-link">View Case Study</a>
                     </div>
                     <div class="work-carousel">
                         <div class="vertical-carousel">
-                            <div class="carousel-slide"><img src="images/case-4=Variant1.png" alt="Project image 1"></div>
-                            <div class="carousel-slide"><img src="images/case-4=Variant2.png" alt="Project image 2"></div>
+                            <div class="carousel-slide"><img src="images\case-4=Variant1.jpg" alt="Project image 1"></div>
+                            <div class="carousel-slide"><img src="images\case-4=Variant2.jpg" alt="Project image 2"></div>
+                            <div class="carousel-slide"><img src="images\case-4=Variant3.jpg" alt="Project image 3"></div>
+                            <div class="carousel-slide"><img src="images\case-4=Variant4.jpg" alt="Project image 4"></div>
+                            <div class="carousel-slide"><img src="images\case-4=Variant5.jpg" alt="Project image 5"></div>
+                            <div class="carousel-slide"><img src="images\case-4=Variant6.jpg" alt="Project image 6"></div>
+                            <div class="carousel-slide"><img src="images\case-4=Variant7.jpg" alt="Project image 7"></div>
+                            <div class="carousel-slide"><img src="images\case-4=Variant8.jpg" alt="Project image 8"></div>   
+                            <div class="carousel-slide"><img src="images\case-4=Variant9.jpg" alt="Project image 9"></div>
+                            <div class="carousel-slide"><img src="images\case-4=Variant10.jpeg" alt="Project image 10"></div>  
                         </div>
                         <div class="carousel-dots"></div>
                     </div>
@@ -173,12 +222,13 @@
                 <div class="work-card">
                     <div class="work-content">
                         <h3>Predicting NY Workers’ Compensation Claims Outcomes</h3>
-                        <p>Ranked among the top projects (18.10/20), we developed machine learning models to predict insurance claim outcomes for the New York Workers’ Compensation Board using a complex, highly imbalanced dataset. Our approach involved building both multiclass and binary classifiers to predict injury types and claim agreements, respectively. Due to hardware limitations, the professor provided a manageable sample of the data, making it particularly challenging to predict less-represented classes. The professor’s own F1 score of around 0.5 served as a reference point, representing a realistic upper limit for this task. Our best models achieved competitive F1 scores of 0.45 (multiclass) and 0.63 (binary), demonstrating acceptable predictive performance within these constraints.</p>
+                        <p>Ranked among the top projects (18.10/20), we developed machine learning models for the New York Workers’ Compensation Board to predict insurance claim outcomes from a complex, imbalanced dataset. We built multiclass models to classify injury types and binary classifiers to predict claim agreements. Since only a sampled dataset was available due to hardware limits, less-represented classes were especially hard to model. With the professor’s own F1 score of ~0.5 as a benchmark, our best models achieved F1 scores of 0.46 with 0.77 accuracy (multiclass) and 0.63 with 0.90 accuracy (binary), showing acceptable predictive performance within these constraints.</p>
                         <a href="https://github.com/CatarinaGN/Machine-Learning-2425-Group-22" class="work-link">View Case Study</a>
                     </div>
                     <div class="work-carousel">
                         <div class="vertical-carousel">
-                            <div class="carousel-slide"><img src="images/case-5=Variant1.png" alt="Project image 1"></div>
+                            <div class="carousel-slide"><img src="images/case-5=thumbnail.jpg" alt="Project image 1"></div>
+                            <div class="carousel-slide"><img src="images\case-5=thumbnail 1.png" alt="Project image 2"></div>
                         </div>
                         <div class="carousel-dots"></div>
                     </div>
@@ -189,27 +239,22 @@
 
     <!--End of work section-->
 
-    <footer>
-        <div class="wrapper">
-            <h1>Let’s work together!</h1>
-            
-            <div class="contact-buttons">
-                <a href="#" class="btn light footer">Contact Me</a>
-                <div class="socials">
-                    <a href="#" class="social-btn">
-                        <img src="images/Linkedin.svg" alt="LinkedIn" />
-                        <span>LinkedIn</span>
-                    </a>
-                    <a href="#" class="social-btn">
-                        <img src="images/Github.svg" alt="GitHub" />
-                        <span>GitHub</span>
-                    </a>
-                </div>
-             </div>
 
-             <p class="copyright">
-                &copy; 2025 Catarina Gonçalves Nunes. All rights reserved.
-            </p>
+    <footer>
+        <div class="foot-wrap">
+            <h1>Let’s work together!</h1>
+            <a href="mailto:catarina.goncalves.n@gmail.com" class="btn light footer">Contact Me</a>
+            <div class="socials">
+            <a href="https://www.linkedin.com/in/catarina-gn-nunes" class="social-btn" target="_blank">
+                <img src="images/Linkedin.svg" alt="LinkedIn" />
+                <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/CatarinaGN" class="social-btn" target="_blank">
+                <img src="images/Github.svg" alt="GitHub" />
+                <span>GitHub</span>
+            </a>
+            </div>
+            <p class="copyright">&copy; 2025 Catarina Gonçalves Nunes. All rights reserved.</p>
         </div>
     </footer>
     
