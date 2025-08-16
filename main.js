@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
         follower.style.top = `${e.clientY}px`;
     });
 
-    // Make follower grow when hovering interactive elements
     const interactiveElements = document.querySelectorAll('a, button, .hello-card');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
@@ -30,15 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener("scroll", function() {
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
         if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // scrolling down
             nav.style.top = "-100px";
         } else {
-            // scrolling up
             nav.style.top = "0";
         }
-        
         lastScrollTop = scrollTop;
     });
 
@@ -46,37 +41,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Scroll Animations for Sections (REPEATING)
     // =============================================
     const aboutSection = document.querySelector('.about-me-section');
-    const header = document.querySelector('.fullscreen-header');
-    const heroImg = document.querySelector('.hero-section .right img');
     const scrollIndicator = document.querySelector('.scroll-indicator');
     const workItems = document.querySelectorAll('.work-item');
 
-    // Configure Intersection Observer for repeating animations
     const animationObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // When element enters viewport
                 if (entry.target.classList.contains('about-me-section')) {
                     entry.target.classList.add('visible');
                     document.body.classList.add('scrolled-past-hero');
-                    
-                    // Add temporary animation class
                     entry.target.classList.add('animating');
                     setTimeout(() => {
                         entry.target.classList.remove('animating');
                     }, 1000);
                 }
-                
                 if (entry.target.classList.contains('work-item')) {
                     entry.target.classList.add('is-visible');
                 }
             } else {
-                // When element leaves viewport
                 if (entry.target.classList.contains('about-me-section')) {
                     entry.target.classList.remove('visible');
                     document.body.classList.remove('scrolled-past-hero');
                 }
-                
                 if (entry.target.classList.contains('work-item')) {
                     entry.target.classList.remove('is-visible');
                 }
@@ -87,18 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -100px 0px'
     });
 
-    // Observe all animated sections
     animationObserver.observe(aboutSection);
     workItems.forEach((item, index) => {
-        // Add staggered delay only when entering viewport
         item.addEventListener('animationstart', () => {
             item.style.transitionDelay = `${index * 0.1}s`;
         }, { once: true });
-        
         animationObserver.observe(item);
     });
 
-    // Remove scroll indicator after first scroll
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50 && scrollIndicator) {
             scrollIndicator.style.opacity = '0';
@@ -126,164 +108,127 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // =============================================
-    // Initialize Carousels (if any)
+    // Initialize Work Carousels
     // =============================================
-    // Your carousel initialization code would go here
-});
+    document.querySelectorAll('.work-carousel').forEach((carousel) => {
+        const track = carousel.querySelector('.vertical-carousel');
+        const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+        const dotsContainer = carousel.querySelector('.carousel-dots');
 
-//--------------------------------------------------------
+        if (!track || slides.length === 0 || !dotsContainer) return;
 
-// Enhanced theme toggle with localStorage
-const toggleBtn = document.getElementById("toggleTheme");
+        let current = 0;
+        let isDragging = false;
+        let startY = 0;
+        let currentY = 0;
+        let prevTranslate = 0;
+        let currentTranslate = 0;
+        let startTime = 0;
+        let autoplayId = null;
 
-function setTheme(isDark) {
-    if (isDark) {
-        document.body.classList.add("dark-mode");
-        document.body.classList.remove("light-mode");
-        document.documentElement.style.setProperty('--current-bg', 'var(--dark-bg)');
-    } else {
-        document.body.classList.add("light-mode");
-        document.body.classList.remove("dark-mode");
-        document.documentElement.style.setProperty('--current-bg', 'var(--light-beige)');
-    }
-}
+        const AUTOPLAY_DELAY = 5000; // 5s per slide
+        const SWIPE_THRESHOLD = 50; // px
+        const VELOCITY_THRESHOLD = 0.4; // px/ms for momentum swipe
 
-// Initialize theme - add this to check system preference if no localStorage
-if (localStorage.getItem("darkMode") === null) {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(prefersDark);
-}
-toggleBtn.addEventListener("click", () => {
-    const isDark = !document.body.classList.contains("dark-mode");
-    setTheme(isDark);
-    localStorage.setItem("darkMode", isDark);
-});
+        // Build dots
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'carousel-dot';
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => { goTo(i); restartAutoplay(); });
+            dotsContainer.appendChild(dot);
+        });
+        if (slides.length <= 1) dotsContainer.style.display = 'none';
 
-// Initialize theme
-const savedTheme = localStorage.getItem("darkMode");
-setTheme(savedTheme === "true");
+        function updateDots() {
+            [...dotsContainer.children].forEach((dot, i) =>
+                dot.classList.toggle('active', i === current)
+            );
+        }
 
+        function setTranslate(y, withTransition = false) {
+            track.style.transition = withTransition ? 'transform 500ms cubic-bezier(0.33,1,0.68,1)' : 'none';
+            track.style.transform = `translateY(${y}px)`;
+        }
 
-//----------------------------------------------------
-//Caroussel
+        function goTo(i) {
+            const count = slides.length;
+            current = ((i % count) + count) % count; // wrap-around
+            prevTranslate = -current * track.clientHeight;
+            setTranslate(prevTranslate, true);
+            updateDots();
+        }
 
-document.addEventListener('DOMContentLoaded', function() {
-  const carousel = document.getElementById('verticalCarousel');
-  const dotsContainer = document.getElementById('carouselDots');
-  const slides = carousel.querySelectorAll('.carousel-slide');
-  const slideCount = slides.length;
-  let currentSlide = 0;
-  let isDragging = false;
-  let startY = 0;
-  let currentY = 0;
-  let currentTranslate = 0;
-  let prevTranslate = 0;
+        function onStart(e) {
+            if (slides.length <= 1) return;
+            isDragging = true;
+            startY = ('touches' in e) ? e.touches[0].clientY : e.clientY;
+            currentY = startY;
+            prevTranslate = -current * track.clientHeight;
+            startTime = Date.now();
+            clearInterval(autoplayId);
+            track.style.transition = 'none';
 
-  // Create navigation dots
-  slides.forEach((_, index) => {
-    const dot = document.createElement('div');
-    dot.classList.add('carousel-dot');
-    if (index === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => goToSlide(index));
-    dotsContainer.appendChild(dot);
-  });
+            // For mouse, prevent text/image selection
+            if (!('touches' in e)) e.preventDefault();
+        }
 
-  // Initialize carousel position
-  updateCarousel();
+        function onMove(e) {
+            if (!isDragging) return;
+            currentY = ('touches' in e) ? e.touches[0].clientY : e.clientY;
+            const diff = currentY - startY;
+            currentTranslate = prevTranslate + diff;
+            setTranslate(currentTranslate, false);
+            if ('touches' in e) e.preventDefault();
+        }
 
-  // Touch events
-  carousel.addEventListener('touchstart', touchStart);
-  carousel.addEventListener('touchend', touchEnd);
-  carousel.addEventListener('touchmove', touchMove);
+        function onEnd() {
+            if (!isDragging) return;
+            isDragging = false;
 
-  // Mouse events
-  carousel.addEventListener('mousedown', dragStart);
-  carousel.addEventListener('mouseup', dragEnd);
-  carousel.addEventListener('mouseleave', dragEnd);
-  carousel.addEventListener('mousemove', drag);
+            const movedBy = currentY - startY;
+            const elapsed = Date.now() - startTime;
+            const velocity = movedBy / elapsed; // px/ms
 
-  function updateCarousel() {
-    carousel.style.transform = `translateY(-${currentSlide * 100}%)`;
-    
-    // Update active dot
-    document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
-      dot.classList.toggle('active', index === currentSlide);
+            if (velocity < -VELOCITY_THRESHOLD || movedBy < -SWIPE_THRESHOLD) {
+                current++;
+            } else if (velocity > VELOCITY_THRESHOLD || movedBy > SWIPE_THRESHOLD) {
+                current--;
+            }
+
+            goTo(current);
+            restartAutoplay();
+        }
+
+        // Mouse events
+        track.addEventListener('mousedown', onStart);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onEnd);
+
+        // Touch events
+        track.addEventListener('touchstart', onStart, { passive: false });
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend', onEnd);
+
+        function startAutoplay() {
+            clearInterval(autoplayId);
+            if (slides.length <= 1) return;
+            autoplayId = setInterval(() => goTo(current + 1), AUTOPLAY_DELAY);
+        }
+
+        function restartAutoplay() {
+            clearInterval(autoplayId);
+            startAutoplay();
+        }
+
+        carousel.addEventListener('mouseenter', () => clearInterval(autoplayId));
+        carousel.addEventListener('mouseleave', startAutoplay);
+
+        goTo(0);
+        startAutoplay();
     });
-  }
 
-  function goToSlide(index) {
-    currentSlide = index;
-    updateCarousel();
-  }
 
-  function dragStart(e) {
-    e.preventDefault();
-    isDragging = true;
-    startY = e.clientY;
-    carousel.style.transition = 'none';
-  }
-
-  function touchStart(e) {
-    isDragging = true;
-    startY = e.touches[0].clientY;
-    carousel.style.transition = 'none';
-  }
-
-  function drag(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    currentY = e.clientY;
-    const diff = currentY - startY;
-    carousel.style.transform = `translateY(calc(-${currentSlide * 100}% + ${diff}px))`;
-  }
-
-  function touchMove(e) {
-    if (!isDragging) return;
-    currentY = e.touches[0].clientY;
-    const diff = currentY - startY;
-    carousel.style.transform = `translateY(calc(-${currentSlide * 100}% + ${diff}px))`;
-  }
-
-  function dragEnd() {
-    if (!isDragging) return;
-    isDragging = false;
-    carousel.style.transition = 'transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)';
-    
-    const movedBy = currentY - startY;
-    
-    if (movedBy < -50 && currentSlide < slideCount - 1) {
-      currentSlide++;
-    } else if (movedBy > 50 && currentSlide > 0) {
-      currentSlide--;
-    }
-    
-    updateCarousel();
-  }
-
-  function touchEnd() {
-    if (!isDragging) return;
-    isDragging = false;
-    carousel.style.transition = 'transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)';
-    
-    const movedBy = currentY - startY;
-    
-    if (movedBy < -50 && currentSlide < slideCount - 1) {
-      currentSlide++;
-    } else if (movedBy > 50 && currentSlide > 0) {
-      currentSlide--;
-    }
-    
-    updateCarousel();
-  }
-
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown' && currentSlide < slideCount - 1) {
-      currentSlide++;
-      updateCarousel();
-    } else if (e.key === 'ArrowUp' && currentSlide > 0) {
-      currentSlide--;
-      updateCarousel();
-    }
-  });
 });

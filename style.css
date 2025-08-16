@@ -504,7 +504,7 @@ body.scrolled-past-hero .hero-section .right img {
 }
 
 .work-content {
-    flex: 0 40%; /* Fixed 40% width */
+    flex: 0 50%; /* Fixed 40% width */
     padding: 3rem;
     box-sizing: border-box;
 }
@@ -546,9 +546,11 @@ body.scrolled-past-hero .hero-section .right img {
 
 /* Vertical Carousel Styles */
 .work-carousel {
-  flex: 0 60%; /* Fixed 60% width */
-  right: 20px;
+  flex: 0 50%; /* Fixed 60% width */
+  right: 10px;
   position: relative;
+  flex-direction: column;
+  align-items: center;
   height: 300px; /* Fixed height for container */
   overflow: hidden; /* Clip overflowing slides */
   display: flex;
@@ -577,8 +579,8 @@ body.scrolled-past-hero .hero-section .right img {
 }
 
 .carousel-slide img {
-  width: auto;
-  height: 100%;
+  width:auto;
+  height: 90%;
   object-fit: contain; /* Show full image without cropping */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -588,7 +590,6 @@ body.scrolled-past-hero .hero-section .right img {
 .carousel-slide img:hover {
   transform: scale(1.02);
 }
-
 
 /* Navigation Dots */
 .carousel-dots {
@@ -602,8 +603,8 @@ body.scrolled-past-hero .hero-section .right img {
 }
 
 .carousel-dot {
-  width: 12px;
-  height: 12px;
+  width: 9px;
+  height: 14px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.5);
   border: 2px solid var(--green);
@@ -624,7 +625,6 @@ body.scrolled-past-hero .hero-section .right img {
 .vertical-carousel:active {
   cursor: grabbing;
 }
-
 
 
 /*------------------------------------------ footer */

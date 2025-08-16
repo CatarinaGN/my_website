@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ride4all Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark-green: #2E5E45;
+  --green: #4E8065;
+  --light-green: #7BA898;
+  --lighter-green: #A8D0C0;
+  --dark-brown: #4E2323;
+  --light-beige: #FFF3E5;
+  --beige: #FFDDBF;
+  --glow-color: rgba(168, 208, 192, 0.4);
+}
+
+body {
+  margin: 0;
+  font-family: "Outfit", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--light-beige);
+  color: var(--dark-brown);
+  line-height: 1.6;
+}
+
+.wrapper { max-width: 1100px; margin: auto; padding: 24px; }
+
+/*---------------- Header / Hero ----------------*/
+.hero {
+  background: linear-gradient(180deg, rgba(78,128,101,0.08), rgba(255,221,191,0.25));
+  border: 1px solid rgba(78,128,101,0.12);
+  border-radius: 18px;
+  padding: 32px 24px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.go-back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: var(--beige);
+  backdrop-filter: blur(5px);
+  color: var(--green);
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 500;
+  border: 1px solid var(--green);
+  transition: all 0.3s ease;
+}
+.go-back-btn:hover { transform: translateX(-3px); }
+.go-back-btn::before {
+  content: "⬅";
+  margin-right: 5px;
+  transition: transform 0.3s ease;
+}
+.go-back-btn:hover::before { transform: translateX(-3px); }
+
+h1 {
+  font-size: 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.2;
+  text-shadow: 0 0 10px var(--lighter-green);
+  transition: text-shadow 0.5s ease;
+}
+h1:hover {
+  text-shadow: 0 0 10px var(--glow-color),
+               0 0 20px var(--glow-color);
+}
+
+p {
+  font-size: 1.1rem;
+  font-weight: 400;
+  max-width: 700px;
+  margin: 20px auto;
+  line-height: 1.7;
+  opacity: 0.9;
+  text-align: justify;
+  text-align-last: center;
+}
+p strong { font-weight: 700; }
+
+.sub { max-width: 750px; margin: 0 auto; }
+
+/*---------------- Sections ----------------*/
+section { max-width: 1000px; margin: auto; padding: 4rem 1.5rem; text-align: center; }
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  color: var(--green);
+}
+
+/*---------------- Grid Cards ----------------*/
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(12, 1fr);
+  margin-top: 28px;
+}
+.card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  padding: 18px 35px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.span-4 { grid-column: span 4; }
+.span-8 { grid-column: span 8; }
+@media (max-width: 900px) {
+  .span-4, .span-8 { grid-column: 1 / -1; }
+}
+
+.kv {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 8px 16px;
+  align-items: start;
+  margin-top: 6px;
+}
+.kv .k { font-weight: 600; }
+
+.tag {
+  display: inline-block;
+  background: var(--beige);
+  color: var(--dark-brown);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  margin: 4px 6px 0 0;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/*---------------- Checklist ----------------*/
+.checklist { list-style: none; padding: 0; margin: 6px 0 0; }
+.checklist li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px;
+  background: #fff;
+  margin-bottom: 10px;
+}
+.checklist li .tick {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lighter-green);
+  color: var(--dark-green);
+  font-weight: 700;
+}
+.muted { color: #6b5b5b; font-size: 0.95rem; }
+
+/*---------------- Media ----------------*/
+iframe {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+}
+
+/*---------------- Scroll progress bar ----------------*/
+#scrollProgressBar {
+  position: fixed;
+  right: 0.5rem;
+  top: 0;
+  width: 6px;
+  height: 0;
+  background-color: var(--dark-green);
+  z-index: 999;
+  border-radius: 3px;
+  transition: height 0.25s ease;
+}
+
+/*---------------- Back to top ----------------*/
+#backToTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 0.7rem 1.1rem;
+  font-size: 1.2rem;
+  background-color: var(--green);
+  color: var(--light-beige);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+#backToTop.show { opacity: 1; }
+
+/*---------------- Footer ----------------*/
+footer {
+  background-color: var(--dark-green);
+  color: var(--light-beige);
+  padding: 3rem 2rem;
+  text-align: center;
+}
+.foot-wrap { max-width: 1100px; margin: auto; padding: 36px 24px; }
+
+footer h2 { margin-bottom: 1rem; font-size: 1.5rem; }
+
+footer .btn.light.footer {
+  background-color: var(--light-beige);
+  color: var(--dark-green);
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0 1.5rem;
+}
+
+footer p {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.social-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.social-btn span {
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  font-weight: 500;
+}
+.social-btn:hover span {
+  opacity: 1;
+  transform: translateY(0);
+  color: var(--lighter-green) !important;
+}
+.social-btn img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease;
+}
+.social-btn:hover img { transform: scale(1.2); }
+
+@media (max-width: 600px) {
+  .go-back-btn {
+    position: static;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+  .hero {
+    padding-top: 0; /* remove extra space if you switch to static */
+  }
+}
+
+
+
+
+
+</style>
+</head>
+<body>
+
+<a href="index.html#recent-work" class="go-back-btn">Back to Case Studies</a>
+<div id="scrollProgressBar"></div>
+
+<div class="wrapper">
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Ride4all — BI4ALL’s Challenges</h1>
+    <p class="sub"></p>
+  </section>
+
+  <!-- TOP ROW -->
+  <div class="grid">
+    <div class="card span-4">
+      <h2>Organization</h2>
+      <p>Ride4all is a ride-sharing company with about three years of historical data...</p>
+    </div>
+
+    <div class="card span-8">
+      <h2>Data Sources</h2>
+      <p class="muted">CSV files extracted directly from the company’s main servers...</p>
+      <div>
+        <span class="tag">Format: CSV</span>
+        <span class="tag">Refresh: Daily</span>
+        <span class="tag">History: ~3 years</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHALLENGE LIST -->
+  <div class="grid">
+    <div class="card span-8">
+      <h2>Analytical Challenges</h2>
+      <ul class="checklist">
+        <li><span class="tick">✓</span><div><strong>Trips over time</strong>: per month, quarter, and year (YTD).</div></li>
+        <li><span class="tick">✓</span><div><strong>Rides & distance</strong>: number of rides and average distance.</div></li>
+        <li><span class="tick">✓</span><div><strong>YoY comparison</strong>: current year vs previous year.</div></li>
+        <li><span class="tick">✓</span><div><strong>Client profiling</strong>: build customer profiles.</div></li>
+        <li><span class="tick">✓</span><div><strong>Trip details</strong>: ride-level analysis.</div></li>
+        <li><span class="tick">✓</span><div><strong>Aggregation</strong>: rides by driver, pickup, and destination point.</div></li>
+      </ul>
+    </div>
+
+    <div class="card span-4">
+      <h2>Security & Extras</h2>
+      <p><strong>Row-Level Security (RLS)</strong> by user/location to restrict access to ride data.</p>
+      <p class="muted">Ensures each user only sees the rides relevant to their team...</p>
+    </div>
+  </div>
+</div>
+
+<section>
+  <h2>Video Walkthrough</h2>
+  <video autoplay muted loop playsinline style="max-width:800px; border-radius:10px;">
+    <source src="images/BI MAA 2024 Group 40 - Power BI.mp4" type="video/mp4">
+  </video>
+
+  <h2><br>Report</h2>
+  <iframe src="documents/Report_40.pdf" width="100%" height="500px"></iframe>
+  <p><a href="documents/Report_40.pdf" target="_blank">Open PDF</a></p>
+
+</section>
+
+<footer>
+  <div class="foot-wrap">
+    <h1>Let’s work together!</h1>
+    <a href="#" class="btn light footer">Contact Me</a>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/catarina-gn-nunes" class="social-btn" target="_blank">
+        <img src="images/Linkedin.svg" alt="LinkedIn" />
+        <span>LinkedIn</span>
+      </a>
+      <a href="https://github.com/CatarinaGN" class="social-btn" target="_blank">
+        <img src="images/Github.svg" alt="GitHub" />
+        <span>GitHub</span>
+      </a>
+    </div>
+    <p class="copyright">&copy; 2025 Catarina Gonçalves Nunes. All rights reserved.</p>
+  </div>
+</footer>
+
+<button id="backToTop">⬆</button>
+
+<script>
+const backToTopBtn = document.getElementById("backToTop");
+const scrollProgressBar = document.getElementById("scrollProgressBar");
+
+window.addEventListener("scroll", () => {
+  backToTopBtn.classList.toggle("show", window.scrollY > 300);
+  const docHeight = document.body.scrollHeight - window.innerHeight;
+  scrollProgressBar.style.height = `${(window.scrollY / docHeight) * 100}%`;
+});
+
+backToTopBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+</script>
+
+</body>
+</html>
+
+
