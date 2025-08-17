@@ -694,7 +694,7 @@ footer .copyright {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: 0rem;
     min-height: auto !important;
     height: auto !important;
     padding: 15rem 0;    
@@ -702,7 +702,7 @@ footer .copyright {
   }
   
   .hero-section .left h1 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin: 0 0 0.1rem 0;
     text-align: left; /* centers title above buttons */
   }
@@ -719,8 +719,8 @@ footer .copyright {
     margin-top: 0.5rem;
   }
   .btn {
-    width: 140px;
-    height: 40px;
+    width: 130px;
+    height: 30px;
     font-size: 0.7rem;
     padding: 0.4rem 0.6rem;
   }
@@ -749,7 +749,7 @@ footer .copyright {
   }
   .work-content {
     flex: 1 1 50%;
-    padding: 0.5rem;
+    padding: 1rem;
     font-size: 0.7rem;
   }
   .work-content h3 {
