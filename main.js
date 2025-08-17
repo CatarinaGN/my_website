@@ -37,6 +37,25 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScrollTop = scrollTop;
     });
 
+    const menuBtn = document.querySelector('.menu-toggle');
+    const navList = document.querySelector('nav ul');
+
+    // Toggle open/close
+    menuBtn.addEventListener('click', () => {
+        navList.classList.toggle('show');
+        menuBtn.textContent = navList.classList.contains('show') ? "✖" : "☰";
+    });
+
+    // Close menu when clicking a link
+    navList.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navList.classList.remove('show');
+            menuBtn.textContent = "☰"; // reset icon
+        });
+    });
+
+
+
     // =============================================
     // Scroll Animations for Sections (REPEATING)
     // =============================================
@@ -72,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         threshold: 0.15,
         rootMargin: '0px 0px -100px 0px'
     });
+
 
     animationObserver.observe(aboutSection);
     workItems.forEach((item, index) => {

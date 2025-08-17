@@ -23,6 +23,7 @@ body {
     background-color: var(--light-beige);
     color: var(--dark-brown);
     line-height: 1.5;
+    overflow-x: hidden;
 }
 
 .wrapper {
@@ -135,26 +136,6 @@ body {
     animation: pulse 0.6s infinite ease-in-out;
 }
 
-/* For mobile devices */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
-    }
-    
-    .button-group {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .btn {
-        width: 100%;
-    }
-    
-    nav ul {
-        gap: 1rem;
-    }
-}
-
 /* Navigation container - full width */
 nav {
     position: fixed;
@@ -199,6 +180,11 @@ nav ul li a {
 nav ul li a:hover {
     color: var(--green); /* Add hover effect */
 }
+
+.menu-toggle {
+  display: none;
+}
+
 
 /* General text sizing */
 h1 {
@@ -695,16 +681,131 @@ footer .copyright {
 }
 .social-btn:hover img { transform: scale(1.2); }
 
-@media (max-width: 600px) {
-  .go-back-btn {
-    position: static;
-    margin-bottom: 1rem;
-    display: inline-block;
+/* ----------------- MOBILE ----------------- */
+
+@media (max-width: 768px) {
+
+  /* Wrapper padding smaller on phones */
+  .wrapper {
+    padding: 0 15px;
   }
-  .hero {
-    padding-top: 0; /* remove extra space if you switch to static */
+  
+  .hero-section {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    min-height: auto !important;
+    height: auto !important;
+    padding: 15rem 0;    
+    padding-bottom: 1rem;
+  }
+  
+  .hero-section .left h1 {
+    font-size: 1.2rem;
+    margin: 0 0 0.1rem 0;
+    text-align: left; /* centers title above buttons */
+  }
+  .hero-section .right img {
+    width: 90%;   
+    height: auto;
+    margin-top: 0.5rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center; /* keeps them centered */
+    margin-top: 0.5rem;
+  }
+  .btn {
+    width: 140px;
+    height: 40px;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  /* Fun facts shrink, 2–3 per row */
+  .fun-facts {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .fact {
+    flex: 1 1 120px;
+    max-width: 140px;
+    text-align: center;
+  }
+  .fact img {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Work cards side by side (smaller) */
+  .work-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .work-content {
+    flex: 1 1 50%;
+    padding: 0.5rem;
+    font-size: 0.7rem;
+  }
+  .work-content h3 {
+    font-size: 1rem;
+  }
+  .work-carousel {
+    flex: 1 1 50%;
+    height: 150px; /* smaller carousel */
+  }
+
+  /* Paragraph text smaller */
+  p {
+    font-size: 0.6rem;
+    line-height: 1.2;
+  }
+
+  /* Headings smaller */
+  h1 { font-size: 1.2rem; }
+  h2 { font-size: 1rem; }
+  h3 { font-size: 0.9rem; }
+
+  /* Section spacing tighter */
+  section { padding: 0.5rem 0; }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    background: var(--light-beige);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    font-size: 1.5rem;
+    transition: opacity 0.3s ease;
+  }
+  nav ul.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--dark-brown);
+    z-index: 1100;
+    position: relative;
   }
 }
+
 
 
 /*_______________________________________________________
@@ -728,6 +829,9 @@ footer .copyright {
 
 #backToTop.show {
     opacity: 1;
+}
+#backToTop .arrow-up {
+  font-size: 1.5rem;
 }
 
 
